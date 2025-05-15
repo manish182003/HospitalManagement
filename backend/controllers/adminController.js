@@ -196,7 +196,7 @@ const getAdminDashboard = async (req, res) => {
       status: "cancelled",
     });
     const patients = await patientModel.find();
-    const appointments = await appointmentModel
+    const appointments = await Appointment
       .find()
       .populate("doctorId")
       .populate("patientId");
