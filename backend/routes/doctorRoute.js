@@ -2,13 +2,14 @@ import express from "express";
 import {
   getDoctorAppointments,
   doctorLogin,
-  getAllDoctors,
+
   getDoctorById,
   getTopDoctors,
   getRelatedDoctors,
   getDoctorsBySpeciality,
   // assignNurseToPatient
 } from "../controllers/doctorController.js";
+import {  getAllDoctors } from "../controllers/adminController.js"
 import authDoctor from "../middlewares/authDoctor.js"; // Auth middleware
 
 const router = express.Router();
