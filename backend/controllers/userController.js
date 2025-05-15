@@ -22,7 +22,7 @@ export const register = async (req, res) => {
       expiresIn: "7d",
     });
 
-    res.status(201).json({ message: "Patient Register Successfully." });
+    res.status(200).json({ message: "Patient Register Successfully." });
 
     // res.status(201).json({ token, user: { id: user._id, name, email } });
   } catch (err) {
