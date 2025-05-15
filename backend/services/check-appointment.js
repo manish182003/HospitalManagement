@@ -59,7 +59,7 @@ export const checkAvailiablityBeforePayment = async ({
       };
     }
 
-    // 1. Check for overlapping appointments for same doctor
+    // Checking for overlapping appointments for same doctor
     const conflictingAppointment = await appointmentModel.findOne({
       doctorId,
       date: bookingDate,

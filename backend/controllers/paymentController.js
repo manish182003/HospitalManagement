@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { createAppointment } from "../services/create-appointment.js";
 import paymentModel from "../modules/paymentModel.js";
+import appointmentModel from "../modules/appointmentModel.js";
 
 import Razorpay from "razorpay";
 import crypto from "crypto";
@@ -17,7 +18,7 @@ export const createPaymentOrder = async (req, res) => {
   const { amount, currency = "INR", receipt, appointmentData } = req.body;
 
   const options = {
-    amount: amount * 100, // amount in smallest currency unit
+    amount: amount * 100,
     currency,
     receipt,
   };
@@ -73,26 +74,26 @@ export const verifyPayment = async (req, res) => {
     doctorId: appointmentData.doctorId,
   });
 
-  const session = await mongoose.startSession();
-  session.startTransaction();
-  await newPayment.save({ session });
+  // const session = await mongoose.startSession();
+  // session.startTransaction();
+  await newPayment.save();
 
   try {
     // ✅ Book appointment only after payment verification
     const appointment = await createAppointment(appointmentData, session);
 
-    // ✅ You can also store payment info in DB here if needed
     newPayment.status = "Paid";
     newPayment.appointmentId = appointment._id;
-    await newPayment.save({ session });
+    await newPayment.save();
 
-    await session.commitTransaction();
-    session.endSession();
+    // await session.commitTransaction();
+    // session.endSession();
+
     return res.status(200).json({ status: "success", data: appointment });
   } catch (error) {
-    await newPayment.save({ session });
-    await session.abortTransaction();
-    session.endSession();
+    await newPayment.save();
+    // await session.abortTransaction();
+    // session.endSession();
 
     await paymentModel.findByIdAndUpdate(newPayment._id, {
       status: "Failed",
@@ -101,6 +102,83 @@ export const verifyPayment = async (req, res) => {
       status: "failure",
       message:
         "Payment succeeded but appointment booking failed. Please contact support.",
+    });
+  }
+};
+
+//refund payment
+export const refund = async (req, res) => {
+  const { paymentId, appointmentId } = req.body;
+
+  if (!paymentId) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Payment ID required" });
+  }
+
+  const paymentdetail = await paymentModel.findOne(paymentId);
+
+  if (!paymentdetail) {
+    return res
+      .status(400)
+      .json({ success: false, message: "No Payment Available With This ID" });
+  }
+
+  // Optional: Specify refund amount (in paise). Omit for full refund.
+  const refundData = {
+    amount: paymentdetail.amount, // e.g., ₹50 = 5000 paise. Omit for full refund.
+    speed: "optimum", // or "instant" for instant refund (may have extra charges)
+    notes: {
+      reason: "Testing refund",
+    },
+  };
+
+  // Create refund
+  try {
+    const refund = await razorpay.payments.refund(paymentId, refundData);
+    console.log("Refund successful:", refund);
+
+    if (refund.status === "processed") {
+      const result = await paymentModel.updateOne(
+        { paymentId: paymentId },
+        { $set: { status: "refunded" } }
+      );
+
+      const canceled = await appointmentModel.findByIdAndUpdate(
+        appointmentId,
+        { status: "canceled" },
+        { new: true }
+      );
+
+      if (result.matchedCount === 0) {
+        return res
+          .status(404)
+          .json({ success: false, message: "Payment not found in DB" });
+      }
+
+      if (!canceled) {
+        return res
+          .status(404)
+          .json({ success: false, message: "Appointment not found in DB" });
+      }
+
+      return res
+        .status(200)
+        .json({ success: true, message: "Refund successful", refund });
+    } else {
+      console.log("Refund failed");
+      return res.status(400).json({
+        success: false,
+        message: "Refund failed. Please contact support.",
+        error: error.message,
+      });
+    }
+  } catch (error) {
+    console.error("Refund failed:", error);
+    return res.status(400).json({
+      success: false,
+      message: "Refund failed. Please contact support.",
+      error: error.message,
     });
   }
 };

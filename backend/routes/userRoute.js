@@ -4,6 +4,8 @@ import {
   login,
   bookAppointments,
   getAppointments,
+  getprofile,
+  updateprofile,
 } from "../controllers/userController.js";
 import { checkSchema } from "express-validator";
 import { runValidation } from "../validation/validation_run.js";
@@ -14,6 +16,7 @@ const router = express.Router();
 
 router.post("/register", register);
 router.post("/login", login);
+
 router.post(
   "/bookAppointments",
   authUser,
@@ -22,6 +25,8 @@ router.post(
   bookAppointments
 );
 
+router.post("/profile", authUser, getprofile);
+router.post("/edit", authUser, updateprofile);
 router.get("/getAppointments/:patientId", authUser, getAppointments);
 
 export default router;

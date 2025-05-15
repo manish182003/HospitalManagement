@@ -1,5 +1,5 @@
 import Test from "../modules/testModel.js";
-import user from "../modules/userModel.js"; // your actual patient model
+import user from "../modules/userModel.js";
 
 // Book a test
 export const bookTest = async (req, res) => {
@@ -28,7 +28,7 @@ export const bookTest = async (req, res) => {
       });
     }
 
-    const formattedDate = new Date(date); // still saving the given date
+    const formattedDate = new Date(date);
 
     // Create and save new test
     const test = new Test({
@@ -44,22 +44,24 @@ export const bookTest = async (req, res) => {
       test,
     });
   } catch (error) {
-    res.status(500).json({ message: "Error booking test", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error booking test", error: error.message });
   }
 };
-
-
 
 // View all booked tests
 export const getAllTests = async (req, res) => {
   try {
     const tests = await Test.find()
-      .populate("patientId", "name email") // populate patient name and email
+      .populate("patientId", "name email")
       .sort({ createdAt: -1 });
 
     res.status(200).json(tests);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching tests", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error fetching tests", error: error.message });
   }
 };
 
@@ -73,15 +75,18 @@ export const getTestsByPatientId = async (req, res) => {
       .sort({ createdAt: -1 });
 
     if (tests.length === 0) {
-      return res.status(404).json({ message: "No tests found for this patient" });
+      return res
+        .status(404)
+        .json({ message: "No tests found for this patient" });
     }
 
     res.status(200).json(tests);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching tests", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error fetching tests", error: error.message });
   }
 };
-
 
 // Cancel test
 export const cancelTest = async (req, res) => {

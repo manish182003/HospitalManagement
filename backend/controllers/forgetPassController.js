@@ -46,10 +46,10 @@ export const forgotPassword = async (req, res) => {
       userType,
       token,
     });
-    // Put reset link of front end here narendra
+
     const resetLink = `https://yourfrontend.com/reset-password?token=${token}&userType=${userType}`;
 
-  await transporter.sendMail({
+    await transporter.sendMail({
       from: '"Hospital Management System" <hmsproject001@gmail.com>',
       to: email,
       subject: "Reset Your Password - Hospital Management System",

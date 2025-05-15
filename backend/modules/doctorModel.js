@@ -26,13 +26,6 @@ const doctorSchema = new mongoose.Schema(
     appointments: [
       { type: mongoose.Schema.Types.ObjectId, ref: "appointment" },
     ],
-    // assignedNurses: [
-    //   {
-    //     patientId: { type: mongoose.Schema.Types.ObjectId, ref: "patient" },
-    //     nurseId: { type: mongoose.Schema.Types.ObjectId, ref: "nurse" },
-    //     assignedOn: { type: Date, default: Date.now }
-    //   }
-    // ]
   },
   { minimize: false }
 );

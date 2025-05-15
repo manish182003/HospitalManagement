@@ -1,7 +1,5 @@
 import doctorModel from "../modules/doctorModel.js";
-import appointmentModel from "../modules/appointmentModel.js"; // You need this model
-// import nurseModel from "../modules/nurseModel.js"; // You need this model
-import patientModel from "../modules/userModel.js"; // You need this model
+import appointmentModel from "../modules/appointmentModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
@@ -10,7 +8,6 @@ const getDoctorAppointments = async (req, res) => {
   try {
     const doctorId = req.params.doctorId;
 
-    // Optional: Verify the requesting doctor is the same as the one in token
     if (req.user.id !== doctorId) {
       return res.status(403).json({ success: false, message: "Access denied" });
     }
@@ -73,35 +70,8 @@ const doctorLogin = async (req, res) => {
   }
 };
 
-export default doctorLogin;
-
-// // 🧑‍⚕️ Appoint Nurse to Patient
-// const assignNurseToPatient = async (req, res) => {
-//   try {
-//     const { doctorId, patientId, nurseId } = req.body;
-
-//     // validate
-//     const doctor = await doctorModel.findById(doctorId);
-//     const nurse = await nurseModel.findById(nurseId);
-//     const patient = await patientModel.findById(patientId);
-
-//     if (!doctor || !nurse || !patient) {
-//       return res.status(404).json({ success: false, message: "Invalid IDs" });
-//     }
-
-//     doctor.assignedNurses.push({ patientId, nurseId });
-//     await doctor.save();
-
-//     res.status(200).json({ success: true, message: "Nurse appointed successfully" });
-//   } catch (error) {
-//     console.error("Error appointing nurse", error);
-//     res.status(500).json({ success: false, message: error.message });
-//   }
-// };
-
-
 // ---------------------GetDoctorsById----------------------
-export const getDoctorById = async (req, res) => {
+const getDoctorById = async (req, res) => {
   try {
     const doctorId = req.params.id;
     const doctor = await doctorModel.findById(doctorId);
@@ -118,7 +88,7 @@ export const getDoctorById = async (req, res) => {
 };
 
 // 🆕 Get top doctors based on experience
-export const getTopDoctors = async (req, res) => {
+const getTopDoctors = async (req, res) => {
   try {
     const topDoctors = await doctorModel
       .find()
@@ -133,7 +103,7 @@ export const getTopDoctors = async (req, res) => {
 };
 
 // 🆕 Get 2 related doctors based on speciality and highest experience
-export const getRelatedDoctors = async (req, res) => {
+const getRelatedDoctors = async (req, res) => {
   try {
     const { speciality } = req.params;
 
@@ -150,7 +120,7 @@ export const getRelatedDoctors = async (req, res) => {
 };
 
 // 🆕 Get doctors by speciality
-export const getDoctorsBySpeciality = async (req, res) => {
+const getDoctorsBySpeciality = async (req, res) => {
   try {
     const { speciality } = req.params;
 
@@ -163,4 +133,47 @@ export const getDoctorsBySpeciality = async (req, res) => {
   }
 };
 
-export { getDoctorAppointments, doctorLogin };
+// -----------------------cancle appoinments by id -----------------------
+
+const cancelAppointments = async (req, res) => {
+  const { appointmentId } = req.body;
+
+  if (!appointmentId) {
+    return res.status(400).json({
+      success: false,
+      message: "Appointment ID is required",
+    });
+  }
+
+  try {
+    const appointment = await appointmentModel.findByIdAndDelete(appointmentId);
+
+    if (!appointment) {
+      return res.status(404).json({
+        success: false,
+        message: "Appointment not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Appointment cancelled successfully",
+    });
+  } catch (error) {
+    console.error("Error cancelling appointment:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Server error while cancelling appointment",
+    });
+  }
+};
+
+export {
+  getDoctorAppointments,
+  doctorLogin,
+  cancelAppointments,
+  getDoctorsBySpeciality,
+  getDoctorById,
+  getRelatedDoctors,
+  getTopDoctors,
+};

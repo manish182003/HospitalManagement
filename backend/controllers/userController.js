@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 import User from "../modules/userModel.js";
 import mongoose from "mongoose";
 import appointmentModel from "../modules/appointmentModel.js";
-import doctorModel from "../modules/doctorModel.js";
 import userModel from "../modules/userModel.js";
 import { createAppointment } from "../services/create-appointment.js";
 
@@ -12,25 +11,15 @@ export const register = async (req, res) => {
 
   try {
     const userExists = await User.findOne({ email });
-    if (userExists) return res.status(400).json({ msg: "User already exists" });
+    if (userExists) {
+      return res.status(400).json({ msg: "User already exists" });
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({ name, email, password: hashedPassword });
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
-
     res.status(201).json({ message: "Patient Register Successfully." });
-
-    res.json({
-    success: true,
-    token,
-    user: { id: user._id, name: user.name, email: user.email },
-    });
-
-    // res.status(201).json({ token, user: { id: user._id, name, email } });
   } catch (err) {
     res.status(500).json({ msg: "Server error" });
   }
@@ -41,8 +30,9 @@ export const login = async (req, res) => {
 
   try {
     const user = await User.findOne({ email });
-    if (!user)
+    if (!user) {
       return res.status(400).json({ msg: "User is not Yet Registered." });
+    }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
@@ -72,6 +62,46 @@ export const bookAppointments = async (req, res) => {
     await session.abortTransaction();
     session.endSession();
     res.status(400).json({ success: false, error: e.message });
+  }
+};
+
+export const getprofile = async (req, res) => {
+  try {
+    const { userid } = req.user;
+    const user = await userModel.findById(userid).lean();
+    console.table(user);
+    res.status(201).json({ success: true, profile: user });
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
+  }
+};
+
+export const updateprofile = async (req, res) => {
+  try {
+    const userId = req.user;
+    const { name, email, image, address, gender, dob, phone } = req.body;
+
+    // Validate input
+    if (!name || !email) {
+      return res.status(400).json({ message: "Name and Email are required." });
+    }
+
+    // Check for duplicate email (if changing)
+    const existingUser = await User.findOne({ email });
+    if (existingUser && existingUser._id.toString() !== userId) {
+      return res.status(409).json({ message: "Email is already in use." });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { name, email, image, address, gender, dob, phone },
+      { new: true } // return the updated doc
+    ).select("-password"); // never send password
+
+    res.status(201).json(updatedUser);
+  } catch (err) {
+    console.error("Profile update error:", err);
+    res.status(500).json({ message: "Server error. Try again later." });
   }
 };
 

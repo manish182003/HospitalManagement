@@ -1,4 +1,3 @@
-
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import { v2 as cloudinary } from "cloudinary";
@@ -7,7 +6,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import doctorModel from "../modules/doctorModel.js";
-import Appointment from "../modules/appointmentModel.js";
+import appointmentModel from "../modules/appointmentModel.js";
 import patientModel from "../modules/userModel.js";
 import { slotModel } from "../modules/slot.js";
 import mongoose from "mongoose";
@@ -141,7 +140,6 @@ const addDoctor = async (req, res) => {
 
 // ---------------------------- REMOVE DOCTOR ----------------------------
 
-
 const removeDoctor = async (req, res) => {
   try {
     const { doctorId } = req.params;
@@ -158,7 +156,6 @@ const removeDoctor = async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 };
-
 
 // ---------------------------- LOGIN ADMIN ----------------------------
 const loginAdmin = async (req, res) => {
@@ -187,16 +184,15 @@ const loginAdmin = async (req, res) => {
 
 // ---------------------------- ADMIN DASHBOARD DATA ----------------------------
 
-
 const getAdminDashboard = async (req, res) => {
   try {
     const totalDoctors = await doctorModel.countDocuments();
-    const totalAppointments = await Appointment.countDocuments();
-    const cancelledAppointments = await Appointment.countDocuments({
+    const totalAppointments = await appointmentModel.countDocuments();
+    const cancelledAppointments = await appointmentModel.countDocuments({
       status: "cancelled",
     });
     const patients = await patientModel.find();
-    const appointments = await Appointment
+    const appointments = await appointmentModel
       .find()
       .populate("doctorId")
       .populate("patientId");
@@ -233,11 +229,11 @@ const getAllDoctors = async (req, res) => {
   }
 };
 
-
 // -----------------------get all appoinments -----------------------
 const getAllAppointments = async (req, res) => {
   try {
-    const appointments = await Appointment.find()
+    const appointments = await appointmentModel
+      .find()
       .populate({
         path: "patientId",
         select: "name dob",
@@ -294,13 +290,11 @@ function getAgeFromDOB(dob) {
   return Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
 }
 
-
-
-export { 
+export {
   addDoctor,
   removeDoctor,
   loginAdmin,
   getAdminDashboard,
   getAllDoctors,
-  getAllAppointments
+  getAllAppointments,
 };

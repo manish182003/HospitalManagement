@@ -10,7 +10,7 @@ export const createAppointment = async (
   try {
     const start = new Date(`${bookingDate}T${startTime}:00`);
     const end = new Date(`${bookingDate}T${endTime}:00`);
-    // 1. Create new appointment
+    //Create new appointment
     const newAppointment = new appointmentModel({
       doctorId,
       patientId,
@@ -22,7 +22,7 @@ export const createAppointment = async (
 
     await newAppointment.save({ session });
 
-    // 2. Optionally, add appointment ID to doctor's appointments array
+    // Optionally, add appointment ID to doctor's appointments array
     await doctorModel.findByIdAndUpdate(
       doctorId,
       { $push: { appointments: newAppointment._id } },
