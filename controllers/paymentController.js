@@ -17,7 +17,7 @@ export const createPaymentOrder = async (req, res) => {
   const { amount, currency = "INR", receipt, appointmentData } = req.body;
 
   const options = {
-    amount: amount * 100, 
+    amount: amount * 100,
     currency,
     receipt,
   };
@@ -81,14 +81,13 @@ export const verifyPayment = async (req, res) => {
     // ✅ Book appointment only after payment verification
     const appointment = await createAppointment(appointmentData, session);
 
-
     newPayment.status = "Paid";
     newPayment.appointmentId = appointment._id;
     await newPayment.save();
 
     // await session.commitTransaction();
     // session.endSession();
-    
+
     return res.status(200).json({ status: "success", data: appointment });
   } catch (error) {
     await newPayment.save();
@@ -107,18 +106,21 @@ export const verifyPayment = async (req, res) => {
 };
 
 //refund payment
-export const refund = async(req,res)=>{
-
-  const { paymentId } = req.body;
+export const refund = async (req, res) => {
+  const { paymentId, appointmentId } = req.body;
 
   if (!paymentId) {
-    return res.status(400).json({ success: false, message: "Payment ID required" });
+    return res
+      .status(400)
+      .json({ success: false, message: "Payment ID required" });
   }
 
   const paymentdetail = await paymentModel.findOne(paymentId);
 
   if (!paymentdetail) {
-    return res.status(400).json({ success: false, message: "No Payment Available With This ID" });
+    return res
+      .status(400)
+      .json({ success: false, message: "No Payment Available With This ID" });
   }
 
   // Optional: Specify refund amount (in paise). Omit for full refund.
@@ -126,10 +128,10 @@ export const refund = async(req,res)=>{
     amount: paymentdetail.amount, // e.g., ₹50 = 5000 paise. Omit for full refund.
     speed: "optimum", // or "instant" for instant refund (may have extra charges)
     notes: {
-      reason: "Testing refund"
-    }
+      reason: "Testing refund",
+    },
   };
-  
+
   // Create refund
   try {
     const refund = await razorpay.payments.refund(paymentId, refundData);
@@ -137,15 +139,31 @@ export const refund = async(req,res)=>{
 
     if (refund.status === "processed") {
       const result = await paymentModel.updateOne(
-        { paymentId: paymentId }, 
+        { paymentId: paymentId },
         { $set: { status: "refunded" } }
       );
-  
+
+      const canceled = await appointmentModel.findByIdAndUpdate(
+        appointmentId,
+        { status: "canceled" },
+        { new: true }
+      );
+
       if (result.matchedCount === 0) {
-        return res.status(404).json({ success: false, message: "Payment not found in DB" });
+        return res
+          .status(404)
+          .json({ success: false, message: "Payment not found in DB" });
       }
-  
-      return res.status(200).json({ success: true, message: "Refund successful", refund });
+
+      if (!canceled) {
+        return res
+          .status(404)
+          .json({ success: false, message: "Appointment not found in DB" });
+      }
+
+      return res
+        .status(200)
+        .json({ success: true, message: "Refund successful", refund });
     } else {
       console.log("Refund failed");
       return res.status(400).json({
@@ -162,5 +180,4 @@ export const refund = async(req,res)=>{
       error: error.message,
     });
   }
-
 };
