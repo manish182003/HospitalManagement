@@ -3,7 +3,7 @@ import appointmentModel from "../modules/appointmentModel.js"; // You need this 
 // import nurseModel from "../modules/nurseModel.js"; // You need this model
 import patientModel from "../modules/userModel.js"; // You need this model
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 // 🩺 View Scheduled Appointments
 const getDoctorAppointments = async (req, res) => {
@@ -99,17 +99,6 @@ export default doctorLogin;
 //   }
 // };
 
-// ----------------all doctors----------------
-export const getAllDoctors = async (req, res) => {
-  try {
-    const doctors = await doctorModel.find(); // Fetch all doctors
-    res.status(200).json(doctors);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Failed to fetch doctors" });
-  }
-};
-
 
 // ---------------------GetDoctorsById----------------------
 export const getDoctorById = async (req, res) => {
@@ -134,7 +123,7 @@ export const getTopDoctors = async (req, res) => {
     const topDoctors = await doctorModel
       .find()
       .sort({ experience: -1 }) // Sort by experience in descending order
-      .limit(20); // Limit to top 20 doctors
+      .limit(8); // Limit to top 20 doctors
 
     res.status(200).json(topDoctors);
   } catch (error) {
@@ -173,6 +162,5 @@ export const getDoctorsBySpeciality = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch doctors by speciality" });
   }
 };
-
 
 export { getDoctorAppointments, doctorLogin };
