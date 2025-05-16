@@ -128,9 +128,11 @@ export const updateprofile = async (req, res) => {
       imageUrl = imageUpload.secure_url;
     }
 
+    const userAddress = JSON.parse(address);
+
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { name, email, imageUrl, address, gender, dob, phone },
+      { name, email, imageUrl, userAddress, gender, dob, phone },
       { new: true } // return the updated doc
     ).select("-password"); // never send password
 
