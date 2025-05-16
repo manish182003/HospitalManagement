@@ -25,7 +25,7 @@ router.post(
   bookAppointments
 );
 
-router.post("/profile", authUser, getprofile);
+router.get("/profile", authUser, getprofile);
 router.post("/edit", authUser, updateprofile);
 router.get("/getAppointments/:patientId", authUser, getAppointments);
 
