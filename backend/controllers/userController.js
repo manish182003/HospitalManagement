@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import User from "../modules/userModel.js";
 import mongoose from "mongoose";
 import appointmentModel from "../modules/appointmentModel.js";
-import userModel from "../modules/userModel.js";
+// import userModel from "../modules/userModel.js";
 import { createAppointment } from "../services/create-appointment.js";
 import { v2 as cloudinary } from "cloudinary";
 
@@ -92,7 +92,7 @@ export const bookAppointments = async (req, res) => {
 export const getprofile = async (req, res) => {
   try {
     // const { userid } = req.user;
-    const user = await userModel.findById(req.user).lean();
+    const user = await User.findById(req.user).lean();
     console.table(user);
     res.status(201).json({ success: true, profile: user });
   } catch (error) {
