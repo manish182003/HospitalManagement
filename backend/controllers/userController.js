@@ -14,7 +14,7 @@ export const register = async (req, res) => {
     if (userExists) {
       return res
         .status(400)
-        .json({ success: false, msg: "User already exists" });
+        .json({ success: false, message: "User already exists" }); // 🔁 changed msg to message
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -25,9 +25,10 @@ export const register = async (req, res) => {
       .status(201)
       .json({ success: true, message: "Patient Register Successfully." });
   } catch (err) {
-    res.status(500).json({ success: false, msg: "Server error" });
+    res.status(500).json({ success: false, message: "Server error" }); // 🔁 changed msg to message
   }
 };
+
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
