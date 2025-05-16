@@ -106,13 +106,17 @@ export const updateprofile = async (req, res) => {
 
     // Validate input
     if (!name || !email) {
-      return res.status(400).json({ message: "Name and Email are required." });
+      return res
+        .status(400)
+        .json({ success: false, message: "Name and Email are required." });
     }
 
     // Check for duplicate email (if changing)
     const existingUser = await User.findOne({ email });
     if (existingUser && existingUser._id.toString() !== userId) {
-      return res.status(409).json({ message: "Email is already in use." });
+      return res
+        .status(409)
+        .json({ success: false, message: "Email is already in use." });
     }
 
     const updatedUser = await User.findByIdAndUpdate(
@@ -121,10 +125,12 @@ export const updateprofile = async (req, res) => {
       { new: true } // return the updated doc
     ).select("-password"); // never send password
 
-    res.status(201).json(updatedUser);
+    res.status(201).json({ success: true, updatedUser });
   } catch (err) {
     console.error("Profile update error:", err);
-    res.status(500).json({ message: "Server error. Try again later." });
+    res
+      .status(500)
+      .json({ success: false, message: "Server error. Try again later." });
   }
 };
 
