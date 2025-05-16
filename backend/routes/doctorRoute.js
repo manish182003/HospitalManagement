@@ -15,6 +15,8 @@ const router = express.Router();
 // 🔐 Login
 router.post("/login", doctorLogin);
 
+router.get("/all/doc", getAllDoctors);
+
 // View Appointments
 router.get("/appointments/:doctorId", authDoctor, getDoctorAppointments);
 
