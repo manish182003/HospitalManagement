@@ -135,7 +135,6 @@ export const getAppointments = async (req, res) => {
 
     let matchCondition = {
       patientId: new mongoose.Types.ObjectId(patientId),
-      status: { $ne: "Cancelled" },
     };
 
     if (status === "Upcoming") {
@@ -144,6 +143,8 @@ export const getAppointments = async (req, res) => {
       matchCondition.date = today;
     } else if (status === "Completed") {
       matchCondition.date = { $lt: today };
+    } else if (status === "Cancelled") {
+      matchCondition.status = "Cancelled";
     }
 
     const appointments = await appointmentModel
