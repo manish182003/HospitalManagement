@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import appointmentModel from "../modules/appointmentModel.js";
 import userModel from "../modules/userModel.js";
 import { createAppointment } from "../services/create-appointment.js";
+import { v2 as cloudinary } from "cloudinary";
 
 export const register = async (req, res) => {
   const { name, email, password } = req.body;
@@ -119,9 +120,13 @@ export const updateprofile = async (req, res) => {
         .json({ success: false, message: "Email is already in use." });
     }
 
+    const imageFile = req.file;
+    const imageUpload = await cloudinary.uploader.upload(imageFile.path);
+    const imageUrl = imageUpload.secure_url;
+
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { name, email, image, address, gender, dob, phone },
+      { name, email, imageUrl, address, gender, dob, phone },
       { new: true } // return the updated doc
     ).select("-password"); // never send password
 
