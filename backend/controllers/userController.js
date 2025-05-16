@@ -125,7 +125,7 @@ export const getAppointments = async (req, res) => {
         .json({ success: false, error: "Patient Not Found!" });
     }
 
-    if (!["Upcoming", "Ongoing", "Completed"].includes(status)) {
+    if (!["Upcoming", "Ongoing", "Completed", "Cancelled"].includes(status)) {
       return res.status(400).json({ success: false, error: "Invalid status." });
     }
 
