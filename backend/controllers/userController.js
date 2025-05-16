@@ -12,16 +12,20 @@ export const register = async (req, res) => {
   try {
     const userExists = await User.findOne({ email });
     if (userExists) {
-      return res.status(400).json({ msg: "User already exists" });
+      return res
+        .status(400)
+        .json({ success: false, msg: "User already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({ name, email, password: hashedPassword });
 
-    res.status(201).json({ message: "Patient Register Successfully." });
+    res
+      .status(201)
+      .json({ success: true, message: "Patient Register Successfully." });
   } catch (err) {
-    res.status(500).json({ msg: "Server error" });
+    res.status(500).json({ success: false, msg: "Server error" });
   }
 };
 
