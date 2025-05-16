@@ -29,7 +29,6 @@ export const register = async (req, res) => {
   }
 };
 
-
 export const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -74,7 +73,6 @@ export const login = async (req, res) => {
   }
 };
 
-
 export const bookAppointments = async (req, res) => {
   const session = await mongoose.startSession();
   session.startTransaction();
@@ -92,8 +90,8 @@ export const bookAppointments = async (req, res) => {
 
 export const getprofile = async (req, res) => {
   try {
-    const { userid } = req.user;
-    const user = await userModel.findById(userid).lean();
+    // const { userid } = req.user;
+    const user = await userModel.findById(req.user).lean();
     console.table(user);
     res.status(201).json({ success: true, profile: user });
   } catch (error) {
