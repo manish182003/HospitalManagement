@@ -148,6 +148,7 @@ export const getAppointments = async (req, res) => {
 
     const appointments = await appointmentModel
       .find(matchCondition)
+      .populate("doctorId")
       .skip((page - 1) * limit)
       .limit(parseInt(limit))
       .sort({ date: 1 });
