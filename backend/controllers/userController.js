@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import User from "../modules/userModel.js";
 import mongoose from "mongoose";
 import appointmentModel from "../modules/appointmentModel.js";
-// import userModel from "../modules/userModel.js";
+import userModel from "../modules/userModel.js";
 import { createAppointment } from "../services/create-appointment.js";
 import { v2 as cloudinary } from "cloudinary";
 
