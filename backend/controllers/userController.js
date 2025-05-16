@@ -120,9 +120,13 @@ export const updateprofile = async (req, res) => {
         .json({ success: false, message: "Email is already in use." });
     }
 
-    const imageFile = req.file;
-    const imageUpload = await cloudinary.uploader.upload(imageFile.path);
-    const imageUrl = imageUpload.secure_url;
+    let imageUrl;
+
+    if (req.file) {
+      const imageFile = req.file;
+      const imageUpload = await cloudinary.uploader.upload(imageFile.path);
+      imageUrl = imageUpload.secure_url;
+    }
 
     const updatedUser = await User.findByIdAndUpdate(
       userId,
