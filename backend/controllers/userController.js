@@ -103,7 +103,7 @@ export const getprofile = async (req, res) => {
 export const updateprofile = async (req, res) => {
   try {
     const userId = req.user;
-    const { name, email, image, address, gender, dob, phone } = req.body;
+    const { name, email, address, gender, dob, phone } = req.body;
 
     // Validate input
     if (!name || !email) {
