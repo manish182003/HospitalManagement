@@ -108,15 +108,15 @@ export const verifyPayment = async (req, res) => {
 
 //refund payment
 export const refund = async (req, res) => {
-  const { paymentId, appointmentId } = req.body;
+  const { appointmentId } = req.body;
 
-  if (!paymentId) {
+  if (!appointmentId) {
     return res
       .status(400)
-      .json({ success: false, message: "Payment ID required" });
+      .json({ success: false, message: "Appointment ID required" });
   }
 
-  const paymentdetail = await paymentModel.findOne(paymentId);
+  const paymentdetail = await paymentModel.findOne({ appointmentId });
 
   if (!paymentdetail) {
     return res
@@ -146,7 +146,7 @@ export const refund = async (req, res) => {
 
       const canceled = await appointmentModel.findByIdAndUpdate(
         appointmentId,
-        { status: "canceled" },
+        { status: "Cancelled" },
         { new: true }
       );
 
