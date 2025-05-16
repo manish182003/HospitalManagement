@@ -4,6 +4,7 @@ import {
   doctorLogin,
   getDoctorById,
   getTopDoctors,
+  getAllDoctors,
   getRelatedDoctors,
   getDoctorsBySpeciality,
   // assignNurseToPatient
