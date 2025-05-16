@@ -165,6 +165,6 @@ export const getAppointments = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
+    return res.status(400).json({ success: false, error: error.message });
   }
 };
