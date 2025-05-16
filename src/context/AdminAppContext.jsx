@@ -9,7 +9,8 @@ const AdminAppContextProvider = (props) => {
   const [doctors, setDoctors] = useState([]);
   const [appointments, setAppointments] = useState([]);
 
-  const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+  const backendUrl =
+    import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
   // Sync token from localStorage on load
   useEffect(() => {
@@ -26,11 +27,11 @@ const AdminAppContextProvider = (props) => {
   };
 
   const getAllDoctors = async () => {
-   try {
+    try {
       const { data } = await axios.get(backendUrl + "api/doctor/all/doc");
       console.log(data);
       if (data.success) {
-        setdoctors(data.data);
+        setDoctors(data.data);
       } else {
         toast.error(data.message);
       }
@@ -38,7 +39,7 @@ const AdminAppContextProvider = (props) => {
       toast.error(error.message);
     }
   };
-// to be continued
+  // to be continued
   // const changeAvailability = async (docId) => {
   //   try {
   //     const { data } = await axios.post(
@@ -54,47 +55,48 @@ const AdminAppContextProvider = (props) => {
   //     }
   //   } catch (error) {
   //     toast.error(error.message || "Error changing availability.");
-  //   }  
+  //   }
   // };
 
-const getAllAppointments = async () => {
-  try {
-    const { data } = await axios.get(`${backendUrl}api/admin/all-appointments`, {
-      headers: { aToken },
-    });
-    // const { data } = await axios.get(`http://localhost:5000/api/admin/all-appointments`, {
-    // headers: { aToken },
-    // });   
-    if (data.success) {
-      setAppointments(data.appointments); // This updates context state
-      console.log(data.appointments);
-    } else {
-      toast.error(data.message);
+  const getAllAppointments = async () => {
+    try {
+      const { data } = await axios.get(
+        `${backendUrl}api/admin/all-appointments`,
+        {
+          headers: { aToken },
+        }
+      );
+      // const { data } = await axios.get(`http://localhost:5000/api/admin/all-appointments`, {
+      // headers: { aToken },
+      // });
+      if (data.success) {
+        setAppointments(data.appointments); // This updates context state
+        console.log(data.appointments);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message || "Failed to fetch appointments.");
     }
-  } catch (error) {
-    toast.error(error.message || "Failed to fetch appointments.");
-  }
-};
+  };
 
- const [dashData, setDashData] = useState(null);
+  const [dashData, setDashData] = useState(null);
 
-const getDashData = async () => {
-  try {
-    const { data } = await axios.get(`${backendUrl}api/admin/dashboard`, {
-      headers: { aToken },
-    });
+  const getDashData = async () => {
+    try {
+      const { data } = await axios.get(`${backendUrl}api/admin/dashboard`, {
+        headers: { aToken },
+      });
 
-    if (data.success) {
-      setDashData(data.data); // ✅ This stores the data in state!
-    } else {
-      toast.error(data.message);
+      if (data.success) {
+        setDashData(data.data); // ✅ This stores the data in state!
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message || "Failed to fetch dashboard data.");
     }
-  } catch (error) {
-    toast.error(error.message || "Failed to fetch dashboard data.");
-  }
-};
-
-
+  };
 
   const value = {
     aToken,
@@ -108,7 +110,7 @@ const getDashData = async () => {
     getAllAppointments,
     dashData,
     // cancelAppointment,
-    getDashData, 
+    getDashData,
   };
 
   return (

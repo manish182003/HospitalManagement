@@ -67,7 +67,7 @@ const AppContextProvider = (props) => {
         {
           headers: {
             "Content-Type": "application/json",
-            token: token || "", // fallback to empty string if undefined
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -130,7 +130,9 @@ const AppContextProvider = (props) => {
           },
         },
         {
-          headers: { token },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       if (data.status == "success") {
