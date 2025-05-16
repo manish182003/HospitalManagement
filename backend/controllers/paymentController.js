@@ -74,8 +74,8 @@ export const verifyPayment = async (req, res) => {
     doctorId: appointmentData.doctorId,
   });
 
-  // const session = await mongoose.startSession();
-  // session.startTransaction();
+  const session = await mongoose.startSession();
+  session.startTransaction();
   await newPayment.save();
 
   try {
@@ -86,14 +86,14 @@ export const verifyPayment = async (req, res) => {
     newPayment.appointmentId = appointment._id;
     await newPayment.save();
 
-    // await session.commitTransaction();
-    // session.endSession();
+    await session.commitTransaction();
+    session.endSession();
 
     return res.status(200).json({ status: "success", data: appointment });
   } catch (error) {
     await newPayment.save();
-    // await session.abortTransaction();
-    // session.endSession();
+    await session.abortTransaction();
+    session.endSession();
 
     await paymentModel.findByIdAndUpdate(newPayment._id, {
       status: "Failed",
