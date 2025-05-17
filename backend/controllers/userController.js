@@ -178,10 +178,13 @@ export const getAppointments = async (req, res) => {
     };
 
     if (status === "Upcoming") {
+      matchCondition.status = "Upcoming";
       matchCondition.date = { $gt: today };
     } else if (status === "Ongoing") {
+      matchCondition.status = "Ongoing";
       matchCondition.date = today;
     } else if (status === "Completed") {
+      matchCondition.status = "Completed";
       matchCondition.date = { $lt: today };
     } else if (status === "Cancelled") {
       matchCondition.status = "Cancelled";
