@@ -135,7 +135,10 @@ export const refund = async (req, res) => {
 
   // Create refund
   try {
-    const refund = await razorpay.payments.refund(paymentId, refundData);
+    const refund = await razorpay.payments.refund(
+      paymentdetail.paymentId,
+      refundData
+    );
     console.log("Refund successful:", refund);
 
     if (refund.status === "processed") {
