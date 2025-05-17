@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 
 // import { AdminAppContext } from "../context/AdminAppContext";
 const Appointment = () => {
+  const {token} = useContext(AppContext);
   const navigate = useNavigate();
   const { docId } = useParams();
   const {
