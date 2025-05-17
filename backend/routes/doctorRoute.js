@@ -5,6 +5,7 @@ import {
   getAllDoctors,
   getDoctorById,
   getTopDoctors,
+  doctorDashboard,
   getRelatedDoctors,
   getDoctorsBySpeciality,
   // assignNurseToPatient
@@ -37,6 +38,9 @@ router.get("/related/:speciality", getRelatedDoctors);
 
 // 🆕 Get doctors by speciality
 router.get("/speciality/:speciality", getDoctorsBySpeciality);
+
+//by Narendra------------------------------------------------------
+doctorRouter.get("/dashboard", authDoctor, doctorDashboard);
 
 
 // Assign nurse
