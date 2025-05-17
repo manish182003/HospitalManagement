@@ -134,6 +134,7 @@ const App = () => {
   const { aToken } = useContext(AdminAppContext);
   const { dToken } = useContext(DoctorContext);
   const [loading, setLoading] = useState(true);
+  console.log("dToken:", dToken);
 
   useEffect(() => {
     setLoading(false);
