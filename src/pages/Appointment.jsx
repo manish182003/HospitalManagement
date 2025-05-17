@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import { assets } from "../assets/assets";
 import RelatedDoctors from "../components/RelatedDoctors";
@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 
 // import { AdminAppContext } from "../context/AdminAppContext";
 const Appointment = () => {
+  const navigate = useNavigate();
   const { docId } = useParams();
   const {
     doctors,
@@ -113,7 +114,10 @@ const Appointment = () => {
   };
 
   const bookAppointment = async () => {
-    console.log("done");
+    if (!token) {
+      toast.warn("Login to book appointment");
+      return navigate("/login");
+    }
 
     if (!docSlots[slotIndex][0]) {
       return toast.error("Please Pick Booking Date");
