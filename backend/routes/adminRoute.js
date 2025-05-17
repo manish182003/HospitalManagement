@@ -9,6 +9,7 @@ import {
 } from "../controllers/adminController.js";
 import upload from "../middlewares/multer.js";
 import authAdmin from "../middlewares/authAdmin.js";
+import { changeAvailablity } from "../controllers/doctorController.js";
 
 const adminRouter = express.Router();
 
@@ -20,5 +21,6 @@ adminRouter.delete("/remove-doctor/:doctorId", authAdmin, removeDoctor);
 adminRouter.get("/dashboard", authAdmin, getAdminDashboard);
 adminRouter.get("/all/doc", authAdmin, getAllDoctors); 
 adminRouter.get("/all-appointments",authAdmin,getAllAppointments)
+adminRouter.post("/change-availability", authAdmin, changeAvailablity); //by narendra
 
 export default adminRouter;
