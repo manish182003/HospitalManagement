@@ -138,7 +138,7 @@ const Doctors = () => {
                 <div className="flex items-center space-x-2">
                   <p
                     className={`w-2 h-2 ${
-                      item.available ? "bg-green-500" : "bg-gray-500"
+                      item.available ? "bg-green-500" : "bg-red-500"
                     } rounded-full`}
                   ></p>
                   <p>{item.available ? "Available" : "Unavailable"}</p>
