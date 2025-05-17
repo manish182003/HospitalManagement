@@ -40,7 +40,7 @@ router.get("/related/:speciality", getRelatedDoctors);
 router.get("/speciality/:speciality", getDoctorsBySpeciality);
 
 //by Narendra------------------------------------------------------
-doctorRouter.get("/dashboard", authDoctor, doctorDashboard);
+router.get("/dashboard", authDoctor, doctorDashboard);
 
 
 // Assign nurse
