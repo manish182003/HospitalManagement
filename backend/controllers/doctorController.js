@@ -211,4 +211,4 @@ const doctorDashboard = async (req, res) => {
 };
 
 
-export { getDoctorAppointments, doctorLogin, changeAvailablity, dashData };
+export { getDoctorAppointments, doctorLogin, changeAvailablity, doctorDashboard };
