@@ -181,17 +181,17 @@ const changeAvailablity = async (req, res) => {
 //by Narendra------------------------------------------------------------
 const doctorDashboard = async (req, res) => {
   try {
-    const { docId } = req.body;
-    const appointments = await appointmentModel.find({ docId });
-    let earnings = 0;
+    const docId = req.user.id;
 
-    appointments.map((item) => {
+    const appointments = await appointmentModel.find({ docId });
+
+    let earnings = 0;
+    let patients = [];
+
+    appointments.forEach((item) => {
       if (item.isCompleted || item.payment) {
         earnings += item.amount;
       }
-    });
-    let patients = [];
-    appointments.map((item) => {
       if (!patients.includes(item.userId)) {
         patients.push(item.userId);
       }
@@ -203,9 +203,10 @@ const doctorDashboard = async (req, res) => {
       patients: patients.length,
       latestAppointments: appointments.reverse().slice(0, 5),
     };
+
     return res.json({ success: true, dashData });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
