@@ -39,10 +39,10 @@ const App = () => {
               <Slidebar />
               <Routes>
                 <Route path="/" element={<></>} />
-                <Route path="/admin-dashboard" element={<DoctorDashboard />} />
+                <Route path="/admin-dashboard" element={<Dashboard />} />
                 <Route
                   path="/all-appointment"
-                  element={<DoctorAppointment />}
+                  element={<AllApointment />}
                 />
                 <Route path="/add-doctor" element={<AddDoctor />} />
                 <Route path="/doctor-list" element={<DoctorList />} />
@@ -58,9 +58,8 @@ const App = () => {
               <Slidebar />
               <Routes>
                 <Route path="/" element={<></>} />
-                <Route path="/admin-dashboard" element={<Dashboard />} />
-                <Route path="/all-appointment" element={<AllApointment />} />
-                <Route path="/add-doctor" element={<AddDoctor />} />
+                <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
+                <Route path="/doctor-appointment" element={<DoctorAppointment />} />
                 <Route path="/doctor-list" element={<DoctorList />} />
               </Routes>
             </div>
