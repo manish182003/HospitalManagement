@@ -40,6 +40,7 @@ const App = () => {
     if (storedAToken) setAToken(storedAToken);
     if (storedDToken) setDToken(storedDToken);
     setLoading(false);
+     console.log("dToken:", dToken);
   }, [setAToken, setDToken]);
 
   if (loading) return <div className="text-center mt-20">Loading...</div>;
