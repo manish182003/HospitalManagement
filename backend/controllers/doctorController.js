@@ -73,8 +73,6 @@ const doctorLogin = async (req, res) => {
   }
 };
 
-export default doctorLogin;
-
 // // 🧑‍⚕️ Appoint Nurse to Patient
 // const assignNurseToPatient = async (req, res) => {
 //   try {
@@ -101,7 +99,7 @@ export default doctorLogin;
 
 
 // ---------------------GetDoctorsById----------------------
-export const getDoctorById = async (req, res) => {
+const getDoctorById = async (req, res) => {
   try {
     const doctorId = req.params.id;
     const doctor = await doctorModel.findById(doctorId);
@@ -118,7 +116,7 @@ export const getDoctorById = async (req, res) => {
 };
 
 // 🆕 Get top doctors based on experience
-export const getTopDoctors = async (req, res) => {
+const getTopDoctors = async (req, res) => {
   try {
     const topDoctors = await doctorModel
       .find()
@@ -133,7 +131,7 @@ export const getTopDoctors = async (req, res) => {
 };
 
 // 🆕 Get 2 related doctors based on speciality and highest experience
-export const getRelatedDoctors = async (req, res) => {
+const getRelatedDoctors = async (req, res) => {
   try {
     const { speciality } = req.params;
 
@@ -150,7 +148,7 @@ export const getRelatedDoctors = async (req, res) => {
 };
 
 // 🆕 Get doctors by speciality
-export const getDoctorsBySpeciality = async (req, res) => {
+const getDoctorsBySpeciality = async (req, res) => {
   try {
     const { speciality } = req.params;
 
@@ -198,4 +196,11 @@ const doctorDashboard = async (req, res) => {
     });
 
 
-export { getDoctorAppointments, doctorLogin, changeAvailablity, doctorDashboard };
+export {  doctorLogin,
+  getDoctorAppointments,
+  getDoctorById,
+  getTopDoctors,
+  getRelatedDoctors,
+  getDoctorsBySpeciality,
+  changeAvailablity,
+  doctorDashboard };
