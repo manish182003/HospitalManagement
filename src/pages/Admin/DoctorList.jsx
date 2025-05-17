@@ -43,7 +43,7 @@ import { AdminAppContext } from "../../context/AdminAppContext";
 //     </div>
 //   );
 // };
-const TopDoctor = () => {
+const DoctorList = () => {
   const { doctors, aToken, getAllDoctors, changeAvailability } =
     useContext(AdminAppContext);
 
@@ -92,4 +92,4 @@ const TopDoctor = () => {
   );
 };
 
-export default TopDoctor;
+export default DoctorList;
