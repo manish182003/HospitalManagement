@@ -17,8 +17,11 @@ const MyAppointment = () => {
 
   const tabs = ["Upcoming", "Ongoing", "Completed", "Cancelled"];
   useEffect(() => {
+    const localToken = localStorage.getItem("token")
+      ? localStorage.getItem("token")
+      : false;
     const fetchUser = async () => {
-      if (token) {
+      if (localToken) {
         await loadUserProfileData();
       } else {
         navigate("/");
@@ -26,14 +29,14 @@ const MyAppointment = () => {
     };
 
     fetchUser();
-  }, [token, navigate]);
+  }, []);
 
   // 2. Once userData is available, fetch appointments
   useEffect(() => {
     if (userData && token) {
       getAppointments(userData._id, activeTab, 1);
     }
-  }, [userData, activeTab, getAppointments, token]);
+  }, [activeTab, userData, token]);
 
   const formatDate = (date) => {
     const dateObj = new Date(date);

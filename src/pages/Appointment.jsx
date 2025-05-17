@@ -161,7 +161,7 @@ const Appointment = () => {
               paymentOrder.amount,
               {
                 doctorId: docInfo._id,
-                patientId: "6813235480a86c9b4d893913",
+                patientId: userData._id,
                 bookingDate: formatDate(date),
                 startTime: convertAndAddTime(slotTime),
                 endTime: convertAndAddTime(slotTime, true),
