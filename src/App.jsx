@@ -25,10 +25,24 @@ import ResetPassword from "./pages/RestPassword.jsx";
 import { DoctorContext } from "./context/DoctorContext.jsx";
 import DoctorDashboard from "./pages/Doctor/DoctorDashboard.jsx";
 import DoctorAppointment from "./pages/Doctor/DoctorAppointment.jsx";
+import { useEffect } from "react";
+import { useState } from "react";
 
 const App = () => {
-  const { aToken } = useContext(AdminAppContext);
-  const { dToken } = useContext(DoctorContext);
+  const { aToken, setAToken } = useContext(AdminAppContext);
+  const { dToken, setDToken } = useContext(DoctorContext);
+  const [loading, setLoading] = useState(true);
+
+  //====================Sync context tokens from localStorage on app load=======================================================================
+  useEffect(() => {
+    const storedAToken = localStorage.getItem("aToken");
+    const storedDToken = localStorage.getItem("dToken");
+    if (storedAToken) setAToken(storedAToken);
+    if (storedDToken) setDToken(storedDToken);
+    setLoading(false);
+  }, [setAToken, setDToken]);
+
+  if (loading) return <div className="text-center mt-20">Loading...</div>;
   return (
     <div className="mx-4 sm:mx-[10%]">
       {aToken ? (
@@ -40,10 +54,7 @@ const App = () => {
               <Routes>
                 <Route path="/" element={<></>} />
                 <Route path="/admin-dashboard" element={<Dashboard />} />
-                <Route
-                  path="/all-appointment"
-                  element={<AllApointment />}
-                />
+                <Route path="/all-appointment" element={<AllApointment />} />
                 <Route path="/add-doctor" element={<AddDoctor />} />
                 <Route path="/doctor-list" element={<DoctorList />} />
               </Routes>
@@ -59,7 +70,10 @@ const App = () => {
               <Routes>
                 <Route path="/" element={<></>} />
                 <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
-                <Route path="/doctor-appointment" element={<DoctorAppointment />} />
+                <Route
+                  path="/doctor-appointment"
+                  element={<DoctorAppointment />}
+                />
                 <Route path="/doctor-list" element={<DoctorList />} />
               </Routes>
             </div>
