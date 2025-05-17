@@ -40,7 +40,7 @@ const App = () => {
     if (storedAToken) setAToken(storedAToken);
     if (storedDToken) setDToken(storedDToken);
     setLoading(false);
-     console.log("dToken:", dToken);
+    console.log("dToken:", dToken);
   }, [setAToken, setDToken]);
 
   if (loading) return <div className="text-center mt-20">Loading...</div>;
@@ -69,8 +69,7 @@ const App = () => {
             <div className="flex  items-start">
               <Slidebar />
               <Routes>
-                <Route path="/" element={<></>} />
-                <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
+                <Route path="/" element={<Navigate to="/doctor-dashboard" />} />
                 <Route
                   path="/doctor-appointment"
                   element={<DoctorAppointment />}
