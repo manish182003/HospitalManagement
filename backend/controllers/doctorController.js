@@ -163,4 +163,20 @@ export const getDoctorsBySpeciality = async (req, res) => {
   }
 };
 
-export { getDoctorAppointments, doctorLogin };
+//by narendra ====================================
+const changeAvailablity = async (req, res) => {
+  try {
+    const { docId } = req.body;
+
+    const docData = await doctorModel.findById(docId);
+    await doctorModel.findByIdAndUpdate(docId, {
+      available: !docData.available,
+    });
+    res.json({ success: true, message: "Availabity changed" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export { getDoctorAppointments, doctorLogin, changeAvailablity };
