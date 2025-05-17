@@ -6,6 +6,8 @@ import numpy as np
 from keras import models
 import nltk
 from nltk.stem import WordNetLemmatizer
+from waitress import serve
+# from main import app
 
 lemmatizer = WordNetLemmatizer()
 intents = json.loads(open('intents.json').read())
@@ -69,4 +71,5 @@ def chat():
     return jsonify({"response": response})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # Warning: Use only for development/testing
+    serve(app, host="0.0.0.0", port=5000)

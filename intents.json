@@ -14,7 +14,7 @@
       "patterns": ["I want to book an appointment with a doctor", "Suggest me some doctors"],
       "responses": [
         "- Sure! Which specialist would you like to see?",
-        "- We have the following available:\n  1. Physician\n  2. Gynecologist\n  3. Dermatologist\n  4. ediatricians\n  5. Neurologist\n  6. Gastroenterologist",
+        "- We have the following available:\n  1. Physician\n  2. Gynecologist\n  3. Dermatologist\n  4. Pediatricians\n  5. Neurologist\n  6. Gastroenterologist",
         "- Check out our experienced doctors here: [Doctors](/doctor)"
       ]
     },
@@ -115,7 +115,7 @@
     {
       "tags": "pediatrician",
       "patterns": [
-        "My child has a fever", "My baby is crying a lot", "Child has a cold", "My kid has a rash",
+        "My child has a fever", "My baby is crying a lot", "Child has a cold", "My kid has a rash", "my son got injured",
         "Pediatric checkup", "Vaccination for child", "Baby health issue", "Child diarrhea", "Infant has cough"
       ],
       "responses": [
