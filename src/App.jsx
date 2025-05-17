@@ -76,7 +76,18 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/doctor" element={<Doctors />} />
         <Route path="/doctor/:speciality" element={<Doctors />} />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={
+            aToken ? (
+              <Navigate to="/admin-dashboard" />
+            ) : dToken ? (
+              <Navigate to="/doctor-dashboard" />
+            ) : (
+              <Login />
+            )
+          }
+        />
         <Route path="/signup" element={<Signup />} />
         <Route path="/about" element={<About />} />
         <Route path="/my-profile" element={<MyProfile />} />
@@ -85,7 +96,7 @@ const App = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         {/* <Route path="/chatbot" element={<Chatbot />} /> */}
-
+        {/* 
         <Route
           path="/admin/adminlogin"
           element={
@@ -97,7 +108,7 @@ const App = () => {
               <AdminLogin />
             )
           }
-        />
+        /> */}
       </Routes>
 
       <ToastContainer />
