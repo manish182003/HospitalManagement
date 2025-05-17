@@ -182,6 +182,21 @@ export const getAllDoctors = async (req, res) => {
       .json({ success: false, message: "Failed to fetch doctors" });
   }
 };
+//by narendra ====================================
+const changeAvailablity = async (req, res) => {
+  try {
+    const { docId } = req.body;
+
+    const docData = await doctorModel.findById(docId);
+    await doctorModel.findByIdAndUpdate(docId, {
+      available: !docData.available,
+    });
+    res.json({ success: true, message: "Availabity changed" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 
 export {
   getDoctorAppointments,
@@ -191,4 +206,5 @@ export {
   getDoctorById,
   getRelatedDoctors,
   getTopDoctors,
+  changeAvailablity
 };
