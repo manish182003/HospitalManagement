@@ -39,24 +39,24 @@ const AdminAppContextProvider = (props) => {
       toast.error(error.message);
     }
   };
-  // to be continued
-  // const changeAvailability = async (docId) => {
-  //   try {
-  //     const { data } = await axios.post(
-  //       `${backendUrl}/api/admin/change-availability`,
-  //       { docId },
-  //       { headers: { aToken } }
-  //     );
-  //     if (data.success) {
-  //       toast.success(data.message);
-  //       getAllDoctors();
-  //     } else {
-  //       toast.error(data.message);
-  //     }
-  //   } catch (error) {
-  //     toast.error(error.message || "Error changing availability.");
-  //   }
-  // };
+
+  const changeAvailability = async (docId) => {
+    try {
+      const { data } = await axios.post(
+        `${backendUrl}/api/admin/change-availability`,
+        { docId },
+        { headers: { aToken } }
+      );
+      if (data.success) {
+        toast.success(data.message);
+        getAllDoctors();
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message || "Error changing availability.");
+    }
+  };
 
   const getAllAppointments = async () => {
     try {
@@ -104,7 +104,7 @@ const AdminAppContextProvider = (props) => {
     backendUrl,
     doctors,
     getAllDoctors,
-    // changeAvailability,
+    changeAvailability,
     appointments,
     setAppointments,
     getAllAppointments,
