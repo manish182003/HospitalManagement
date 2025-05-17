@@ -43,7 +43,8 @@ const AdminAppContextProvider = (props) => {
   const changeAvailability = async (docId) => {
     try {
       const { data } = await axios.post(
-        `${backendUrl}/api/admin/change-availability`,
+        `${backendUrl}api/admin/change-availability`,
+
         { docId },
         { headers: { aToken } }
       );
