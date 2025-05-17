@@ -73,7 +73,7 @@ const DoctorList = () => {
                   {item.name}
                 </p>
                 <p className="text-gray-600 text-sm">{item.speciality}</p>
-                <div className="mt-2 flex items-center ggap-1 tet-sm">
+                <div className="mt-2 flex items-center gap-1 tet-sm cursor-pointer">
                   <input
                     onChange={() => changeAvailability(item._id)}
                     type="checkbox"
