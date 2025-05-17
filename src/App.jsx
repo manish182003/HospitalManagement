@@ -22,12 +22,35 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import ResetPassword from "./pages/RestPassword.jsx";
+import { DoctorContext } from "./context/DoctorContext.jsx";
+import DoctorDashboard from "./pages/Doctor/DoctorDashboard.jsx";
+import DoctorAppointment from "./pages/Doctor/DoctorAppointment.jsx";
 
 const App = () => {
   const { aToken } = useContext(AdminAppContext);
+  const { dToken } = useContext(DoctorContext);
   return (
     <div className="mx-4 sm:mx-[10%]">
       {aToken ? (
+        <>
+          <AdminNavbar />
+          <div className="bg-gray-100 rounded-md">
+            <div className="flex  items-start">
+              <Slidebar />
+              <Routes>
+                <Route path="/" element={<></>} />
+                <Route path="/admin-dashboard" element={<DoctorDashboard />} />
+                <Route
+                  path="/all-appointment"
+                  element={<DoctorAppointment />}
+                />
+                <Route path="/add-doctor" element={<AddDoctor />} />
+                <Route path="/doctor-list" element={<DoctorList />} />
+              </Routes>
+            </div>
+          </div>
+        </>
+      ) : dToken ? (
         <>
           <AdminNavbar />
           <div className="bg-gray-100 rounded-md">
@@ -64,8 +87,16 @@ const App = () => {
         {/* <Route path="/chatbot" element={<Chatbot />} /> */}
 
         <Route
-          path="/admin/adminLogin"
-          element={aToken ? <Navigate to="/admin-dashboard" /> : <AdminLogin />}
+          path="/admin/adminlogin"
+          element={
+            aToken ? (
+              <Navigate to="/admin-dashboard" />
+            ) : dToken ? (
+              <Navigate to="/doctor-dashboard" />
+            ) : (
+              <AdminLogin />
+            )
+          }
         />
       </Routes>
 
