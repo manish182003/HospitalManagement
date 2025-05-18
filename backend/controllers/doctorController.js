@@ -191,4 +191,5 @@ export {
   getDoctorById,
   getRelatedDoctors,
   getTopDoctors,
+  getAllDoctors,
 };
