@@ -219,7 +219,7 @@ const getAllDoctors = async (req, res) => {
 };
 
 
-export {  doctorLogin,
+export default {  doctorLogin,
   getDoctorAppointments,
   doctorDashboard,
   getDoctorById,
