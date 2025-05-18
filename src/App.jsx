@@ -27,6 +27,7 @@ import DoctorDashboard from "./pages/Doctor/DoctorDashboard.jsx";
 import DoctorAppointment from "./pages/Doctor/DoctorAppointment.jsx";
 import { useEffect } from "react";
 import { useState } from "react";
+import DoctorProfile from "./pages/Doctor/DoctorProfile.jsx";
 const App = () => {
   const { aToken } = useContext(AdminAppContext);
   const { dToken } = useContext(DoctorContext);
@@ -69,7 +70,7 @@ const App = () => {
                 <Route path="/" element={<Navigate to="/doctor-dashboard" />} />
                 <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
                 <Route path="/doctor-appointment" element={<DoctorAppointment />} />
-                <Route path="/doctor-list" element={<DoctorList />} />
+                <Route path="/doctor-profile" element={<DoctorProfile />} />
               </Routes>
             </div>
           </div>
