@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
 // 🩺 View Scheduled Appointments
-const getDoctorAppointments = async (req, res) => {
+export const getDoctorAppointments = async (req, res) => {
   try {
     const doctorId = req.params.doctorId;
 
@@ -34,7 +34,7 @@ const getDoctorAppointments = async (req, res) => {
 };
 
 // 🧑‍⚕️ Doctor Login
-const doctorLogin = async (req, res) => {
+export const doctorLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -99,7 +99,7 @@ const doctorLogin = async (req, res) => {
 
 
 // ---------------------GetDoctorsById----------------------
-const getDoctorById = async (req, res) => {
+export const getDoctorById = async (req, res) => {
   try {
     const doctorId = req.params.id;
     const doctor = await doctorModel.findById(doctorId);
@@ -131,7 +131,7 @@ const getTopDoctors = async (req, res) => {
 };
 
 // 🆕 Get 2 related doctors based on speciality and highest experience
-const getRelatedDoctors = async (req, res) => {
+ export const getRelatedDoctors = async (req, res) => {
   try {
     const { speciality } = req.params;
 
@@ -148,7 +148,7 @@ const getRelatedDoctors = async (req, res) => {
 };
 
 // 🆕 Get doctors by speciality
-const getDoctorsBySpeciality = async (req, res) => {
+export const getDoctorsBySpeciality = async (req, res) => {
   try {
     const { speciality } = req.params;
 
@@ -162,7 +162,7 @@ const getDoctorsBySpeciality = async (req, res) => {
 };
 
 //by narendra ====================================
-const changeAvailablity = async (req, res) => {
+export const changeAvailablity = async (req, res) => {
   try {
     const { docId } = req.body;
 
@@ -177,7 +177,7 @@ const changeAvailablity = async (req, res) => {
   }
 };
 // //by Narendra------------------------------------------------------------
-const doctorDashboard = async (req, res) => {
+export const doctorDashboard = async (req, res) => {
   try {
     const { docId } = req.body;
     const appointments = await appointmentModel.find({ docId });
@@ -208,7 +208,7 @@ const doctorDashboard = async (req, res) => {
   }
 };
 // ----------------all doctors----------------
-const getAllDoctors = async (req, res) => {
+export const getAllDoctors = async (req, res) => {
   try {
     const doctors = await doctorModel.find(); // Fetch all doctors
     res.status(200).json(doctors);
