@@ -1,16 +1,13 @@
 import doctorModel from "../modules/doctorModel.js";
-import appointmentModel from "../modules/appointmentModel.js"; // You need this model
-// import nurseModel from "../modules/nurseModel.js"; // You need this model
-import patientModel from "../modules/userModel.js"; // You need this model
+import appointmentModel from "../modules/appointmentModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
 // 🩺 View Scheduled Appointments
-export const getDoctorAppointments = async (req, res) => {
+const getDoctorAppointments = async (req, res) => {
   try {
     const doctorId = req.params.doctorId;
 
-    // Optional: Verify the requesting doctor is the same as the one in token
     if (req.user.id !== doctorId) {
       return res.status(403).json({ success: false, message: "Access denied" });
     }
@@ -34,7 +31,7 @@ export const getDoctorAppointments = async (req, res) => {
 };
 
 // 🧑‍⚕️ Doctor Login
-export const doctorLogin = async (req, res) => {
+const doctorLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -73,33 +70,8 @@ export const doctorLogin = async (req, res) => {
   }
 };
 
-// // 🧑‍⚕️ Appoint Nurse to Patient
-// const assignNurseToPatient = async (req, res) => {
-//   try {
-//     const { doctorId, patientId, nurseId } = req.body;
-
-//     // validate
-//     const doctor = await doctorModel.findById(doctorId);
-//     const nurse = await nurseModel.findById(nurseId);
-//     const patient = await patientModel.findById(patientId);
-
-//     if (!doctor || !nurse || !patient) {
-//       return res.status(404).json({ success: false, message: "Invalid IDs" });
-//     }
-
-//     doctor.assignedNurses.push({ patientId, nurseId });
-//     await doctor.save();
-
-//     res.status(200).json({ success: true, message: "Nurse appointed successfully" });
-//   } catch (error) {
-//     console.error("Error appointing nurse", error);
-//     res.status(500).json({ success: false, message: error.message });
-//   }
-// };
-
-
 // ---------------------GetDoctorsById----------------------
-export const getDoctorById = async (req, res) => {
+const getDoctorById = async (req, res) => {
   try {
     const doctorId = req.params.id;
     const doctor = await doctorModel.findById(doctorId);
@@ -131,7 +103,7 @@ const getTopDoctors = async (req, res) => {
 };
 
 // 🆕 Get 2 related doctors based on speciality and highest experience
- export const getRelatedDoctors = async (req, res) => {
+const getRelatedDoctors = async (req, res) => {
   try {
     const { speciality } = req.params;
 
@@ -148,7 +120,7 @@ const getTopDoctors = async (req, res) => {
 };
 
 // 🆕 Get doctors by speciality
-export const getDoctorsBySpeciality = async (req, res) => {
+const getDoctorsBySpeciality = async (req, res) => {
   try {
     const { speciality } = req.params;
 
@@ -161,71 +133,62 @@ export const getDoctorsBySpeciality = async (req, res) => {
   }
 };
 
-//by narendra ====================================
-export const changeAvailablity = async (req, res) => {
-  try {
-    const { docId } = req.body;
+// -----------------------cancle appoinments by id -----------------------
 
-    const docData = await doctorModel.findById(docId);
-    await doctorModel.findByIdAndUpdate(docId, {
-      available: !docData.available,
+const cancelAppointments = async (req, res) => {
+  const { appointmentId } = req.body;
+
+  if (!appointmentId) {
+    return res.status(400).json({
+      success: false,
+      message: "Appointment ID is required",
     });
-    res.json({ success: true, message: "Availabity changed" });
+  }
+
+  try {
+    const appointment = await appointmentModel.findByIdAndDelete(appointmentId);
+
+    if (!appointment) {
+      return res.status(404).json({
+        success: false,
+        message: "Appointment not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Appointment cancelled successfully",
+    });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ success: false, message: error.message });
+    console.error("Error cancelling appointment:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Server error while cancelling appointment",
+    });
   }
 };
-// //by Narendra------------------------------------------------------------
-export const doctorDashboard = async (req, res) => {
-  try {
-    const { docId } = req.body;
-    const appointments = await appointmentModel.find({ docId });
-    let earnings = 0;
 
-    appointments.map((item) => {
-      if (item.isCompleted || item.payment) {
-        earnings += item.amount;
-      }
-    });
-    let patients = [];
-    appointments.map((item) => {
-      if (!patients.includes(item.userId)) {
-        patients.push(item.userId);
-      }
-    });
-
-    const dashData = {
-      appointments: appointments.length,
-      earnings,
-      patients: patients.length,
-      latestAppointments: appointments.reverse().slice(0, 5),
-    };
-    return res.json({ success: true, dashData });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
-// ----------------all doctors----------------
+// ======================get all doctors==========================
 export const getAllDoctors = async (req, res) => {
   try {
-    const doctors = await doctorModel.find(); // Fetch all doctors
-    res.status(200).json(doctors);
+    const doctors = await doctorModel.find().populate("available_slots"); // Fetch all doctors
+
+    res.status(200).json({ success: true, data: doctors });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Failed to fetch doctors" });
+
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to fetch doctors" });
   }
 };
 
-
-export {  doctorLogin,
+export {
   getDoctorAppointments,
-  doctorDashboard,
-  getDoctorById,
-  getTopDoctors,
-  getRelatedDoctors,
+  doctorLogin,
+  cancelAppointments,
   getDoctorsBySpeciality,
-  changeAvailablity,
-  getAllDoctors
-  };
+  getDoctorById,
+  getRelatedDoctors,
+  getTopDoctors,
+};
