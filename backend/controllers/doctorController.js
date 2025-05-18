@@ -169,7 +169,7 @@ const cancelAppointments = async (req, res) => {
 };
 
 // ======================get all doctors==========================
-export const getAllDoctors = async (req, res) => {
+const getAllDoctors = async (req, res) => {
   try {
     const doctors = await doctorModel.find().populate("available_slots"); // Fetch all doctors
 
