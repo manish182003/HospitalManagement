@@ -213,4 +213,6 @@ export {  doctorLogin,
   getRelatedDoctors,
   getDoctorsBySpeciality,
   changeAvailablity,
-  doctorDashboard };
+  doctorDashboard,
+  getAllDoctors
+  };
