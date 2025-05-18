@@ -60,7 +60,7 @@ router.post("/login", doctorLogin);
 router.get("/appointments/:doctorId", authDoctor, getDoctorAppointments);
 
 // // 🆕 Get all doctors
-// router.get("/all/doc", getAllDoctors);
+router.get("/all/doc", getAllDoctors);
 
 // 🆕 Get doctor by ID
 router.get("/doc/:id", getDoctorById);
