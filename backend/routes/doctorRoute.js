@@ -40,5 +40,10 @@ router.get("/speciality/:speciality", authDoctor, getDoctorsBySpeciality);
 //narendra=========================================================================
 router.get("/dashboard", authDoctor, doctorDashboard);
 
+// ========================Doctor dashboard=============================
+
+router.get("/profile", authDoctor, getDoctorProfile);
+router.get("/appointments", authDoctor, getDoctorAppointments);
+
 export default router;
 
