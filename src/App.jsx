@@ -3,7 +3,6 @@ import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import Doctors from "./pages/Doctors";
 import MyAppointment from "./pages/MyAppointment";
-import AdminLogin from "./pages/AdminLogin";
 import About from "./pages/About";
 import MyProfile from "./pages/MyProfile";
 import Appointment from "./pages/Appointment";
