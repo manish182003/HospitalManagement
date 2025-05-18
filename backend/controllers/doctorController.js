@@ -176,37 +176,37 @@ const changeAvailablity = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
-//by Narendra------------------------------------------------------------
-const doctorDashboard = async (req, res) => {
-  try {
-    const { docId } = req.body;
-    const appointments = await appointmentModel.find({ docId });
-    let earnings = 0;
+// //by Narendra------------------------------------------------------------
+// const doctorDashboard = async (req, res) => {
+//   try {
+//     const { docId } = req.body;
+//     const appointments = await appointmentModel.find({ docId });
+//     let earnings = 0;
 
-    appointments.map((item) => {
-      if (item.isCompleted || item.payment) {
-        earnings += item.amount;
-      }
-    });
-    let patients = [];
-    appointments.map((item) => {
-      if (!patients.includes(item.userId)) {
-        patients.push(item.userId);
-      }
-    });
+//     appointments.map((item) => {
+//       if (item.isCompleted || item.payment) {
+//         earnings += item.amount;
+//       }
+//     });
+//     let patients = [];
+//     appointments.map((item) => {
+//       if (!patients.includes(item.userId)) {
+//         patients.push(item.userId);
+//       }
+//     });
 
-    const dashData = {
-      appointments: appointments.length,
-      earnings,
-      patients: patients.length,
-      latestAppointments: appointments.reverse().slice(0, 5),
-    };
-    return res.json({ success: true, dashData });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
+//     const dashData = {
+//       appointments: appointments.length,
+//       earnings,
+//       patients: patients.length,
+//       latestAppointments: appointments.reverse().slice(0, 5),
+//     };
+//     return res.json({ success: true, dashData });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ success: false, message: error.message });
+//   }
+// };
 
 
 export {  doctorLogin,
@@ -216,4 +216,4 @@ export {  doctorLogin,
   getRelatedDoctors,
   getDoctorsBySpeciality,
   changeAvailablity,
-  doctorDashboard };
+  };
