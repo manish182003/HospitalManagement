@@ -1,7 +1,6 @@
 import express from "express";
 import {
   getDoctorAppointments,
-  doctorDashboard,
   doctorLogin,
   getDoctorById,
   getTopDoctors,
@@ -37,13 +36,5 @@ router.get("/related/:speciality", authDoctor, getRelatedDoctors);
 
 // 🆕 Get doctors by speciality
 router.get("/speciality/:speciality", authDoctor, getDoctorsBySpeciality);
-//narendra=========================================================================
-router.get("/dashboard", authDoctor, doctorDashboard);
-
-// ========================Doctor dashboard=============================
-
-router.get("/profile", authDoctor, getDoctorProfile);
-router.get("/appointments", authDoctor, getDoctorAppointments);
 
 export default router;
-
