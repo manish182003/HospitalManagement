@@ -62,7 +62,7 @@ const MyAppointment = () => {
     try {
       await cancelAppointments(id);
 
-      getAppointments("6813235480a86c9b4d893913", activeTab, 1);
+      getAppointments(id, activeTab, 1);
     } catch (error) {
       console.log(error);
       toast.error(error.message);
