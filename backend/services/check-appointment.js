@@ -25,7 +25,7 @@ export const checkAvailiablityBeforePayment = async ({
       return { success: false, code: 404, message: "Patient not found" };
     }
 
-    const appointmentData = appointmentModel.findOne({
+    const appointmentData = await appointmentModel.findOne({
       doctorId,
       patientId,
       bookingDate,
