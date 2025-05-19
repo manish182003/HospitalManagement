@@ -9,7 +9,7 @@ const About = () => {
       {/* About Us Title */}
       <div className="text-center text-3xl font-semibold pt-12 text-gray-700">
         <p>
-          ABOUT <span className="text-blue-600">CLINIX-XYZ</span>
+          ABOUT 
         </p>
       </div>
 
@@ -22,7 +22,7 @@ const About = () => {
         />
         <div className="flex flex-col justify-center gap-6 text-[16px] text-gray-600 md:w-2/3">
           <p>
-            <strong>CLINIX-XYZ</strong> is a state-of-the-art hospital
+            <strong>HSM</strong> is a state-of-the-art hospital
             management system designed to simplify the way healthcare works.
             From hassle-free appointment bookings to secure payments and
             real-time patient-doctor interactions — we bring everything under
@@ -35,7 +35,7 @@ const About = () => {
             payments with every booking.
           </p>
           <p>
-            CLINIX-XYZ features a robust three-panel system:{" "}
+            HMS features a robust three-panel system:{" "}
             <strong>Admin Panel</strong> to oversee operations,{" "}
             <strong>Doctor Panel</strong> for managing schedules and patient
             history, and a <strong>Patient Panel</strong> for easy appointment
