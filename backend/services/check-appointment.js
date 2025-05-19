@@ -29,6 +29,7 @@ export const checkAvailiablityBeforePayment = async ({
       doctorId,
       patientId,
       bookingDate,
+      status: { $ne: "Cancelled" },
     });
 
     if (appointmentData) {
