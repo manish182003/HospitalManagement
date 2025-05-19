@@ -18,23 +18,15 @@ const AddDoctor = () => {
 
   const [slots, setSlots] = useState([]);
   const [slotDay, setSlotDay] = useState("Monday");
-  const [slotFrom, setSlotFrom] = useState("");
-  const [slotTo, setSlotTo] = useState("");
 
   const { aToken, backendUrl } = useContext(AdminAppContext);
 
   const addSlot = () => {
-    if (!slotDay || !slotFrom || !slotTo) {
-      return toast.error("Please fill all slot fields.");
+    if (!slotDay) {
+      return toast.error("Please select a day.");
     }
-    const newSlot = {
-      day: slotDay,
-      from: new Date(slotFrom).toISOString(),
-      to: new Date(slotTo).toISOString()
-    };
+    const newSlot = { day: slotDay };
     setSlots([...slots, newSlot]);
-    setSlotFrom("");
-    setSlotTo("");
   };
 
   const removeSlot = (index) => {
@@ -174,8 +166,6 @@ const AddDoctor = () => {
                 <option key={day} value={day}>{day}</option>
               ))}
             </select>
-            <input type="datetime-local" value={slotFrom} onChange={(e) => setSlotFrom(e.target.value)} className="border rounded px-3 py-2" />
-            <input type="datetime-local" value={slotTo} onChange={(e) => setSlotTo(e.target.value)} className="border rounded px-3 py-2" />
             <button type="button" onClick={addSlot} className="bg-blue-500 text-white px-4 py-2 rounded">Add Slot</button>
           </div>
 
@@ -185,7 +175,7 @@ const AddDoctor = () => {
               <ul className="list-disc ml-5 space-y-1">
                 {slots.map((slot, index) => (
                   <li key={index} className="flex justify-between items-center">
-                    {slot.day}: {new Date(slot.from).toLocaleString()} - {new Date(slot.to).toLocaleString()}
+                    {slot.day}
                     <button type="button" onClick={() => removeSlot(index)} className="ml-4 text-red-500">Remove</button>
                   </li>
                 ))}
