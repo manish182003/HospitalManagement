@@ -25,7 +25,12 @@ export const createAppointment = async (
     // Optionally, add appointment ID to doctor's appointments array
     await doctorModel.findByIdAndUpdate(
       doctorId,
-      { $push: { appointments: newAppointment._id } },
+      {
+        $push: {
+          appointments: newAppointment._id,
+          currentBookingLimit: doctorModel.currentBookingLimit + 1,
+        },
+      },
       { session }
     );
 
