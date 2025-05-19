@@ -27,7 +27,7 @@ import DoctorAppointment from "./pages/Doctor/DoctorAppointment.jsx";
 import { useEffect } from "react";
 import { useState } from "react";
 import DoctorProfile from "./pages/Doctor/DoctorProfile.jsx";
-import Chatbot from "./components/Chatbot";
+import Chatbot from "./components/Chatbot.jsx";
 
 
 const App = () => {
