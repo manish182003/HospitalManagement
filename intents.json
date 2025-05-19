@@ -11,11 +11,11 @@
     },
     {
       "tags": "book_appointment",
-      "patterns": ["I want to book an appointment with a doctor", "Suggest me some doctors"],
+      "patterns": ["I want to book an appointment with a doctor", "Suggest me some doctors", "How to book an appointment"],
       "responses": [
-        "- Sure! Which specialist would you like to see?",
-        "- We have the following available:\n  1. Physician\n  2. Gynecologist\n  3. Dermatologist\n  4. Pediatricians\n  5. Neurologist\n  6. Gastroenterologist",
-        "- Check out our experienced doctors here: [Doctors](/doctor)"
+        "You can book an appointment here: [Doctors](/doctor)",
+        "- We have the following available:\n  1. Physician\n  2. Gynecologist\n  3. Dermatologist\n  4. Pediatricians\n  5. Neurologist\n  6. Gastroenterologist\n Here check them out for appointments: [Doctors](/doctor)\n Or tell me your symptoms and i will suggest you a doctor",
+        "- Check out our experienced doctors, book appointment here: [Doctors](/doctor)\n Or tell me your symptoms and i will suggest you a doctor"
       ]
     },
     {
@@ -30,7 +30,7 @@
       ],
       "responses": [
         "- Sure. What kind of test would you like to book?",
-        "- Available tests:\n  1. CT Scan\n  2. X-Ray\n  3. MRI\n  4. Ultrasound",
+        "- Available tests:\n  1. CT Scan\n  2. X-Ray\n  3. MRI\n  4. Ultrasound\n Here check them out: [Book now](/book-test)",
         "- Please select a test type and a convenient time: [Book now](/book-test)"
       ]
     },
@@ -167,10 +167,20 @@
     {
       "tags": "suggessions",
       "patterns": [
-          "you suggest", "suggest me some doctors", "you tell what should i do", "idk", "you tell"
+          "you suggest", "How do a choose a doctor", "How would i know which doctor to select", "suggest me some doctors", "you tell what should i do", "idk", "you tell"
       ],
       "responses": [
-        "Tell me what are your symptoms", "Ok then I will suggest you a doctor.\n Tell me how are you feeling right now"
+        "Tell me what are your symptoms",
+        "Ok then I will suggest you a doctor.\n Tell me how are you feeling right now"
+      ]
+    },
+    {
+      "tags": "small_talk-2",
+      "patterns": [
+        "who are you"
+      ],
+      "responses": [
+        "I am, a chatbot by -HMS- to assist you with navigation and FAQs.\n Feel free to ask your problems,\n I will help to best of my capabilites. "
       ]
     }
   ]
