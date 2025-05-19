@@ -7,9 +7,9 @@ import axios from "axios";
 import { DoctorContext } from "../context/DoctorContext";
 
 const Login = () => {
-  const { token,setToken, setUserData } = useContext(AppContext);
-  const { setAToken } = useContext(AdminAppContext);
-  const { setDToken } = useContext(DoctorContext);
+  const { token, setToken, setUserData } = useContext(AppContext);
+  const { aToken, setAToken } = useContext(AdminAppContext);
+  const { dToken, setDToken } = useContext(DoctorContext);
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -54,7 +54,7 @@ const Login = () => {
           navigate("/doctor-dashboard");
         } else {
           localStorage.setItem("token", res.data.token);
-           setToken(res.data.token); 
+          setToken(res.data.token);
           setUserData(res.data.user);
           navigate("/my-appointment");
         }
@@ -69,11 +69,11 @@ const Login = () => {
     }
   };
 
- useEffect(() => {
-    if (token && role === "patient") {
+  useEffect(() => {
+    if (token || dToken || aToken) {
       navigate("/");
     }
-  }, [token]);
+  }, [token, dToken, aToken]);
 
   return (
     <form onSubmit={onSubmitHandler} className="min-h-[80vh] flex items-center">
