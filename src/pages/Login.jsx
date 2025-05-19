@@ -7,7 +7,7 @@ import axios from "axios";
 import { DoctorContext } from "../context/DoctorContext";
 
 const Login = () => {
-  const { token, setUserData } = useContext(AppContext);
+  const { token,setToken, setUserData } = useContext(AppContext);
   const { setAToken } = useContext(AdminAppContext);
   const { setDToken } = useContext(DoctorContext);
   const navigate = useNavigate();
@@ -54,6 +54,7 @@ const Login = () => {
           navigate("/doctor-dashboard");
         } else {
           localStorage.setItem("token", res.data.token);
+           setToken(res.data.token); 
           setUserData(res.data.user);
           navigate("/my-appointment");
         }
@@ -68,8 +69,8 @@ const Login = () => {
     }
   };
 
-  useEffect(() => {
-    if (token) {
+ useEffect(() => {
+    if (token && role === "patient") {
       navigate("/");
     }
   }, [token]);
