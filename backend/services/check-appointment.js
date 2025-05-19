@@ -25,6 +25,16 @@ export const checkAvailiablityBeforePayment = async ({
       return { success: false, code: 404, message: "Patient not found" };
     }
 
+    const appointmentData = appointmentModel.findOne({
+      doctorId,
+      patientId,
+      bookingDate,
+    });
+
+    if (appointmentData) {
+      return { success: false, code: 404, message: "Doctor Already Booked" };
+    }
+
     const bookingDay = new Date(bookingDate).toLocaleString("en-us", {
       weekday: "long",
     });
