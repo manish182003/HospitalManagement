@@ -87,7 +87,7 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/doctor" element={<Doctors />} />
         <Route path="/doctor/:speciality" element={<Doctors />} />
-        <Route path="/chatbot" element={<Chatbot isOpen={true} onClose={() => setIsOpen(false)} />
+        <Route path="/chatbot" element={<Chatbot isOpen={true} onClose={() => setIsOpen(false)} /> }/>
         <Route
           path="/login"
           element={
