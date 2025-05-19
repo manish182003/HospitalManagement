@@ -28,7 +28,7 @@ export const checkAvailiablityBeforePayment = async ({
     const appointmentData = await appointmentModel.findOne({
       doctorId,
       patientId,
-      bookingDate,
+      date: bookingDate,
       status: { $ne: "Cancelled" },
     });
 
