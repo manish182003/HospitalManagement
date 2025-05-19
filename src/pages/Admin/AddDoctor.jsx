@@ -25,8 +25,10 @@ const AddDoctor = () => {
     if (!slotDay) {
       return toast.error("Please select a day.");
     }
-    const newSlot = { day: slotDay };
-    setSlots([...slots, newSlot]);
+    if (slots.includes(slotDay)) {
+      return toast.error("Slot for this day already added.");
+    }
+    setSlots([...slots, slotDay]);
   };
 
   const removeSlot = (index) => {
@@ -51,7 +53,7 @@ const AddDoctor = () => {
       formData.append("speciality", speciality);
       formData.append("degree", degree);
       formData.append("address", JSON.stringify({ line1: address }));
-      formData.append("slots", JSON.stringify(slots));
+      formData.append("slots", JSON.stringify(slots.map(day => ({ day })))); // only day
 
       const { data } = await axios.post(
         backendUrl + "api/admin/add-doctor",
@@ -159,23 +161,23 @@ const AddDoctor = () => {
         </div>
 
         <div className="mt-6">
-          <p className="mb-2 font-semibold">Add Available Slots</p>
+          <p className="mb-2 font-semibold">Add Available Days</p>
           <div className="flex flex-col sm:flex-row gap-3">
             <select value={slotDay} onChange={(e) => setSlotDay(e.target.value)} className="border rounded px-3 py-2">
               {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(day => (
                 <option key={day} value={day}>{day}</option>
               ))}
             </select>
-            <button type="button" onClick={addSlot} className="bg-blue-500 text-white px-4 py-2 rounded">Add Slot</button>
+            <button type="button" onClick={addSlot} className="bg-blue-500 text-white px-4 py-2 rounded">Add Day</button>
           </div>
 
           {slots.length > 0 && (
             <div className="mt-4">
-              <p className="font-medium mb-2">Current Slots:</p>
+              <p className="font-medium mb-2">Selected Days:</p>
               <ul className="list-disc ml-5 space-y-1">
-                {slots.map((slot, index) => (
+                {slots.map((day, index) => (
                   <li key={index} className="flex justify-between items-center">
-                    {slot.day}
+                    {day}
                     <button type="button" onClick={() => removeSlot(index)} className="ml-4 text-red-500">Remove</button>
                   </li>
                 ))}
