@@ -27,6 +27,9 @@ import DoctorAppointment from "./pages/Doctor/DoctorAppointment.jsx";
 import { useEffect } from "react";
 import { useState } from "react";
 import DoctorProfile from "./pages/Doctor/DoctorProfile.jsx";
+import Chatbot from "./components/chatbot";
+
+
 const App = () => {
   const { aToken } = useContext(AdminAppContext);
   const { dToken } = useContext(DoctorContext);
@@ -84,6 +87,7 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/doctor" element={<Doctors />} />
         <Route path="/doctor/:speciality" element={<Doctors />} />
+        <Route path="/chatbot" element={<Chatbot isOpen={true} onClose={() => setIsOpen(false)} />
         <Route
           path="/login"
           element={
