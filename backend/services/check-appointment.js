@@ -30,17 +30,17 @@ export const checkAvailiablityBeforePayment = async ({
     });
 
     // Check if the doctor has availability for the requested day
-    const doctorAvailableSlot = doctor.available_slots.find(
-      (slot) => slot.day === bookingDay
-    );
+    // const doctorAvailableSlot = doctor.available_slots.find(
+    //   (slot) => slot.day === bookingDay
+    // );
 
-    if (!doctorAvailableSlot) {
-      return {
-        success: false,
-        code: 400,
-        message: `Doctor not available on ${bookingDay}`,
-      };
-    }
+    // if (!doctorAvailableSlot) {
+    //   return {
+    //     success: false,
+    //     code: 400,
+    //     message: `Doctor not available on ${bookingDay}`,
+    //   };
+    // }
     var isAvailable = await checkDoctorBookingLimit(doctor._id, bookingDate);
 
     if (!isAvailable.success) {
