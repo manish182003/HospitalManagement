@@ -35,7 +35,7 @@ const Doctors = () => {
           }`}
           onClick={() => setShowFilter((prev) => !prev)}
         >
-          <Chatbot/>
+          
           Filter
         </button>
         <div
@@ -118,6 +118,7 @@ const Doctors = () => {
             Gastroenterologist
           </p>
         </div>
+        <Chatbot/>
         <div
           className="w-full grid grid-cols-auto gap-4 gap-y-6 "
           style={{
