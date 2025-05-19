@@ -1,7 +1,10 @@
 import { assets } from "../assets/assets";
+import Chatbot from "../components/Chatbot.jsx";
+
 const About = () => {
   return (
     <div>
+      <Chatbot/>
       <div className="text-center text-2xl pt-10 text-gray-500 ">
         <p>
           ABOUT <span className="text-gray-500 font-medium">US</span>

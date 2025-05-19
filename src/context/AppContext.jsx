@@ -38,6 +38,16 @@ const AppContextProvider = (props) => {
     appointmentData
   ) => {
     const toastId = toast.loading("Opening Payment Gateway...");
+    const docInfo = doctors.find((doc) => doc._id === appointmentData.doctorId);
+    if (!docInfo || !docInfo.available) {
+      toast.update(toastId, {
+        render: "Doctor not available for booking",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
+      return;
+    }
     try {
       console.log(backendUrl + "api/payment/create-order");
       console.log({
@@ -164,6 +174,10 @@ const AppContextProvider = (props) => {
   };
 
   const getAppointments = async (patientId, status, page = 1) => {
+    if (!patientId) {
+    console.error("Invalid patientId:", patientId);
+    return;
+  }
     try {
       setAppointments();
       console.log(userData);

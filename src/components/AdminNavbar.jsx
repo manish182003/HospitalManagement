@@ -2,30 +2,32 @@ import { useContext } from "react";
 import { AdminAppContext } from "../context/AdminAppContext";
 import { assets } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
+import { DoctorContext } from "../context/DoctorContext";
 
 const AdminNavbar = () => {
   const { aToken, setAToken } = useContext(AdminAppContext);
+  const { dToken, setDToken } = useContext(DoctorContext);
   const navigate = useNavigate();
-
   const logout = () => {
     navigate("/");
+
     if (aToken) {
       setAToken("");
       localStorage.removeItem("aToken");
+    }
+
+    if (dToken) {
+      setDToken("");
+      localStorage.removeItem("dToken");
     }
   };
 
   return (
     <div className="flex items-center justify-between text-sm py-4 mb-5 border-b border-b-gray-400">
       <div className="flex items-center gap-2 text-xs">
-        <img
-          className="w-44 sm:w-40 cursor-pointer"
-          src={assets.logo}
-          alt="Logo"
-          onClick={() => navigate("/admin-dashboard")}
-        />
-        <p className="border px-2.5 py-0.5 rounded-full border-gray-500 text-gray-600">
-          {aToken ? "Admin" : "Unknown"}
+        <img className="w-44 sm:w-40 cursor-pointer" src={assets.logo} alt="" />
+        <p className="border px-2.5  py-0.5 rounded-full border-gray-500 text-gray-600">
+          {aToken ? "admin" : "Doctor"}
         </p>
       </div>
       <button
