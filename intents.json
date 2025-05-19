@@ -84,7 +84,7 @@
     {
       "tags": "physician",
       "patterns": [
-        "I have a fever", "I'm feeling weak", "I have body aches", "I feel sick",
+        "I have a fever", "I'm feeling weak","headpain", "headache", "I have body aches", "I feel sick",
         "I think I have the flu", "I'm coughing and sneezing", "I have a cold",
         "I feel tired all the time", "I have chills", "I'm not feeling well"
       ],
@@ -181,6 +181,15 @@
       ],
       "responses": [
         "I am, a chatbot by -HMS- to assist you with navigation and FAQs.\n Feel free to ask your problems,\n I will help to best of my capabilites. "
+      ]
+    },
+    {
+      "tags": "contact",
+      "patterns": [
+        "give me contact details", "how can i contact the hospital"
+      ],
+      "responses": [
+        "Here are our contact details: [Contact](/contact)"
       ]
     }
   ]
