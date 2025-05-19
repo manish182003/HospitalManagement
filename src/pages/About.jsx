@@ -1,5 +1,5 @@
 import { assets } from "../assets/assets";
-import Chatbot from "../components/chatbot";
+import Chatbot from "../components/Chatbot";
 
 const About = () => {
   return (
