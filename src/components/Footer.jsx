@@ -6,7 +6,7 @@ const Footer = () => {
 
   return (
     <div className="md:mx-10">
-      <div className="bg-gray-100 px-8 md:px-10 pt-15 pb-8 mt-40 text-sm text-gray-700">
+      <div className="bg-gray-100 px-8 md:px-10 pt-15 pb-8 text-sm text-gray-700">
         <img className="mb-4 w-36" src={assets.logo} alt="logo" />
 
         {/* Top Footer */}
