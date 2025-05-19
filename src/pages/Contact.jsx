@@ -49,7 +49,7 @@ const Contact = () => {
 
           <div>
             <h3 className="text-lg font-semibold text-gray-700 mb-1">
-              💼 Careers at CLINIX-XYZ
+              💼 Careers
             </h3>
             <p>
               We’re building India’s best healthcare platform with dedicated
