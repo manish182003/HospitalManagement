@@ -160,7 +160,7 @@ const AddDoctor = () => {
           <textarea onChange={(e) => setAbout(e.target.value)} value={about} className="w-full px-4 pt-2 border rounded" type="text" placeholder="write about doctor" rows={5} required />
         </div>
 
-        <div className="mt-6">
+{/*         <div className="mt-6">
           <p className="mb-2 font-semibold">Add Available Days</p>
           <div className="flex flex-col sm:flex-row gap-3">
             <select value={slotDay} onChange={(e) => setSlotDay(e.target.value)} className="border rounded px-3 py-2">
@@ -189,7 +189,7 @@ const AddDoctor = () => {
         <button type="submit" className="bg-gray-300 px-10 py-5 mt-6 rounded-full">
           Add Doctor
         </button>
-      </div>
+      </div> */}
     </form>
   );
 };
