@@ -225,33 +225,6 @@ const AddDoctor = () => {
             required
           />
         </div>
-
-        {/* <div className="mt-6">
-          <p className="mb-2 font-semibold">Add Available Slots</p>
-          <div className="flex flex-col sm:flex-row gap-3">
-            <select value={slotDay} onChange={(e) => setSlotDay(e.target.value)} className="border rounded px-3 py-2">
-              {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(day => (
-                <option key={day} value={day}>{day}</option>
-              ))}
-            </select>
-            <input type="datetime-local" value={slotFrom} onChange={(e) => setSlotFrom(e.target.value)} className="border rounded px-3 py-2" />
-            <input type="datetime-local" value={slotTo} onChange={(e) => setSlotTo(e.target.value)} className="border rounded px-3 py-2" />
-            <button type="button" onClick={addSlot} className="bg-blue-500 text-white px-4 py-2 rounded">Add Slot</button>
-          </div> */}
-
-        {/* {slots.length > 0 && (
-            <div className="mt-4">
-              <p className="font-medium mb-2">Current Slots:</p>
-              <ul className="list-disc ml-5 space-y-1">
-                {slots.map((slot, index) => (
-                  <li key={index} className="flex justify-between items-center">
-                    {slot.day}: {new Date(slot.from).toLocaleString()} - {new Date(slot.to).toLocaleString()}
-                    <button type="button" onClick={() => removeSlot(index)} className="ml-4 text-red-500">Remove</button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )} */}
       </div>
 
       <button
