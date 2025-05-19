@@ -142,7 +142,7 @@ export const refund = async (req, res) => {
     );
     console.log("Refund successful:", refund);
 
-    if (refund.status === "processed") {
+    if (refund.status === "processed" || refund.status === "pending") {
       const result = await paymentModel.updateOne(
         { paymentId: paymentId },
         { $set: { status: "refunded" } }
