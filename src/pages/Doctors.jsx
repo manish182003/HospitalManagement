@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom"; // Import useParams hook
 import { AppContext } from "../context/AppContext";
-import Chatbot from "../components/Chatbot";
+import Chatbot from "../components/Chatbot.jsx";
 
 
 const Doctors = () => {
