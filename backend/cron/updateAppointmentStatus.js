@@ -7,32 +7,33 @@ export const updateAppointmentStatus = () => {
     console.log("Running Cron Job to Update Appointment Status...");
 
     try {
-      const startOfTodayKolkata = moment.tz("Asia/Kolkata").startOf("day");
-      const endOfTodayKolkata = moment.tz("Asia/Kolkata").endOf("day");
+      // Get today's start and end time in Asia/Kolkata, converted to UTC
+      const todayStartUTC = moment.tz("Asia/Kolkata").startOf("day").utc();
+      const todayEndUTC = moment.tz("Asia/Kolkata").endOf("day").utc();
 
-      const startOfTodayUTC = startOfTodayKolkata.clone().utc().toDate();
-      const endOfTodayUTC = endOfTodayKolkata.clone().utc().toDate();
+      console.log("Today Start (UTC):", todayStartUTC.toDate());
+      console.log("Today End (UTC):", todayEndUTC.toDate());
 
-      console.log("Today Start (UTC):", startOfTodayUTC);
-      console.log("Today End (UTC):", endOfTodayUTC);
-
-      // Update to 'Completed' if before today's start
+      // Step 1: Mark all appointments before today as Completed
       await appointmentModel.updateMany(
-        { date: { $lt: startOfTodayUTC } },
-        { $set: { status: "Completed" } },
-        { runValidators: true }
+        { date: { $lt: todayStartUTC.toDate() } },
+        { $set: { status: "Completed" } }
       );
 
-      // Update to 'Ongoing' if within today (from midnight to 11:59:59 PM)
+      // Step 2: Mark all appointments today as Ongoing
       await appointmentModel.updateMany(
-        { date: { $gte: startOfTodayUTC, $lte: endOfTodayUTC } },
-        { $set: { status: "Ongoing" } },
-        { runValidators: true }
+        {
+          date: {
+            $gte: todayStartUTC.toDate(),
+            $lte: todayEndUTC.toDate(),
+          },
+        },
+        { $set: { status: "Ongoing" } }
       );
 
       console.log("Appointment statuses updated successfully...");
     } catch (error) {
-      console.error("Error updating appointment status:", error);
+      console.error("Error updating appointment statuses:", error);
     }
   });
 };
