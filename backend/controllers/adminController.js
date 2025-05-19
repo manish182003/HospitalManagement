@@ -26,7 +26,8 @@ const addDoctor = async (req, res) => {
       about,
       fees,
       address,
-      slots,
+      // bookinglimit=10,
+      // slots,
     } = req.body;
 
     if (
@@ -66,41 +67,41 @@ const addDoctor = async (req, res) => {
       });
     }
 
-    console.log(
-      "---------------------------------slots------------------------------",
-      slots
-    );
-    if (typeof slots == "string") {
-      slots = JSON.parse(slots);
-    }
+    // console.log(
+    //   "---------------------------------slots------------------------------",
+    //   slots
+    // );
+    // if (typeof slots == "string") {
+    //   slots = JSON.parse(slots);
+    // }
 
-    if (!Array.isArray(slots)) {
-      return res
-        .status(400)
-        .json({ success: false, message: "slots must be a array" });
-    }
+    // if (!Array.isArray(slots)) {
+    //   return res
+    //     .status(400)
+    //     .json({ success: false, message: "slots must be a array" });
+    // }
 
-    for (const slot of slots) {
-      console.log(slot.day, slot.from, slot.to);
-      if (!slot.day || !slot.from || !slot.to) {
-        return res.status(400).json({
-          success: false,
-          message: "Each Slot must have day, from and to field",
-        });
-      }
-    }
+    // for (const slot of slots) {
+    //   console.log(slot.day, slot.from, slot.to);
+    //   if (!slot.day || !slot.from || !slot.to) {
+    //     return res.status(400).json({
+    //       success: false,
+    //       message: "Each Slot must have day, from and to field",
+    //     });
+    //   }
+    // }
 
-    const slotsToInsert = slots.map((slot) => ({
-      day: slot.day,
-      from: slot.from,
-      to: slot.to,
-    }));
+    // const slotsToInsert = slots.map((slot) => ({
+    //   day: slot.day,
+    //   from: slot.from,
+    //   to: slot.to,
+    // }));
 
-    const insertedSlots = await slotModel.insertMany(slotsToInsert, {
-      session,
-    });
+    // const insertedSlots = await slotModel.insertMany(slotsToInsert, {
+    //   session,
+    // });
 
-    let slotIds = insertedSlots.map((slot) => slot._id);
+    // let slotIds = insertedSlots.map((slot) => slot._id);
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -121,7 +122,7 @@ const addDoctor = async (req, res) => {
       address: address,
       image: imagUrl,
       date: Date.now(),
-      available_slots: slotIds,
+      // available_slots: slotIds,
     });
 
     await newDoctor.save({ session });
