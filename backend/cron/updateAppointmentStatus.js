@@ -14,19 +14,23 @@ export const updateAppointmentStatus = () => {
       console.log("Today Start (UTC):", todayStartUTC.toDate());
       console.log("Today End (UTC):", todayEndUTC.toDate());
 
-      // Step 1: Mark all appointments before today as Completed
+      // Step 1: Mark all non-cancelled appointments before today as Completed
       await appointmentModel.updateMany(
-        { date: { $lt: todayStartUTC.toDate() } },
+        {
+          date: { $lt: todayStartUTC.toDate() },
+          status: { $ne: "Cancelled" },
+        },
         { $set: { status: "Completed" } }
       );
 
-      // Step 2: Mark all appointments today as Ongoing
+      // Step 2: Mark all non-cancelled appointments today as Ongoing
       await appointmentModel.updateMany(
         {
           date: {
             $gte: todayStartUTC.toDate(),
             $lte: todayEndUTC.toDate(),
           },
+          status: { $ne: "Cancelled" },
         },
         { $set: { status: "Ongoing" } }
       );
