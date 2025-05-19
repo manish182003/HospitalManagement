@@ -174,6 +174,10 @@ const AppContextProvider = (props) => {
   };
 
   const getAppointments = async (patientId, status, page = 1) => {
+    if (!patientId) {
+    console.error("Invalid patientId:", patientId);
+    return;
+  }
     try {
       setAppointments();
       console.log(userData);
