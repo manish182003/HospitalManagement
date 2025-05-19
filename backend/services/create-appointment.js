@@ -8,15 +8,15 @@ export const createAppointment = async (
   session
 ) => {
   try {
-    // const start = new Date(`${bookingDate}T${startTime}:00`);
-    // const end = new Date(`${bookingDate}T${endTime}:00`);
+    const start = new Date(`${bookingDate}T${startTime}:00`);
+    const end = new Date(`${bookingDate}T${endTime}:00`);
     //Create new appointment
     const newAppointment = new appointmentModel({
       doctorId,
       patientId,
       date: bookingDate,
-      // startTime: start,
-      // endTime: end,
+      startTime: start,
+      endTime: end,
       reason,
     });
 
@@ -28,8 +28,8 @@ export const createAppointment = async (
       {
         $push: {
           appointments: newAppointment._id,
-          currentBookingLimit: doctorModel.currentBookingLimit + 1,
         },
+        $inc: { currentBookingLimit: 1 },
       },
       { session }
     );

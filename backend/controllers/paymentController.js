@@ -102,6 +102,7 @@ export const verifyPayment = async (req, res) => {
       status: "failure",
       message:
         "Payment succeeded but appointment booking failed. Please contact support.",
+      error: error.message,
     });
   }
 };
