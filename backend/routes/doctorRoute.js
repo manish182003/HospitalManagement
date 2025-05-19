@@ -7,6 +7,8 @@ import {
   getAllDoctors,
   getRelatedDoctors,
   getDoctorsBySpeciality,
+  doctorDashboard,
+  doctorProfile,
   // assignNurseToPatient
 } from "../controllers/doctorController.js";
 import authDoctor from "../middlewares/authDoctor.js"; // Auth middleware
@@ -19,7 +21,7 @@ router.post("/login", doctorLogin);
 router.get("/all/doc", getAllDoctors);
 
 // View Appointments
-router.get("/appointments/:doctorId", authDoctor, getDoctorAppointments);
+router.get("/appointments", authDoctor, getDoctorAppointments);
 
 // 🆕 Get doctor by ID
 router.get("/doc/:id", authDoctor, getDoctorById);
@@ -29,6 +31,8 @@ router.get("/top/doctors", authDoctor, getTopDoctors);
 
 // 🆕 Get related doctors by speciality
 router.get("/related/:speciality", authDoctor, getRelatedDoctors);
+router.get("/dashboard", authDoctor, doctorDashboard);
+router.get("/profile", authDoctor, doctorProfile);
 
 // Important Tip:
 // If speciality names might have spaces (e.g., "Heart Surgeon"), you should encode it in URL like
