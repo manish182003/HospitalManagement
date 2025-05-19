@@ -2,7 +2,7 @@ import Banner from "../components/Banner";
 import Header from "../components/Header";
 import SpecialityMenu from "../components/SpecialityMenu";
 import TopDoctor from "../components/TopDoctor";
-import Chatbot from "../components/Chatbot";
+import Chatbot from "../components/Chatbot.jsx";
 
 
 const Home = () => {
