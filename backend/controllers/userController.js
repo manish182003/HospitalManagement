@@ -171,7 +171,7 @@ export const getAppointments = async (req, res) => {
 
     const now = new Date();
     let today = new Date(now.getFullYear(), now.getMonth(), now.getDate()); // Remove time part
-    today.setDate(today.getDate() + 1);
+    // today.setDate(today.getDate() + 1);
 
     let matchCondition = {
       patientId: new mongoose.Types.ObjectId(patientId),
