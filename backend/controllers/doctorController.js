@@ -6,27 +6,13 @@ import bcrypt from "bcryptjs";
 // 🩺 View Scheduled Appointments
 const getDoctorAppointments = async (req, res) => {
   try {
-    const doctorId = req.params.doctorId;
+    const { docId } = req.body;
+    const appointments = await appointmentModel.find({ docId });
 
-    if (req.user.id !== doctorId) {
-      return res.status(403).json({ success: false, message: "Access denied" });
-    }
-
-    const doctor = await doctorModel.findById(doctorId).populate({
-      path: "appointments",
-      populate: { path: "patientId", select: "name email" },
-    });
-
-    if (!doctor) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Doctor not found" });
-    }
-
-    res.status(200).json({ success: true, appointments: doctor.appointments });
+    res.json({ success: true, appointments });
   } catch (error) {
-    console.error("Error fetching appointments", error);
-    res.status(500).json({ success: false, message: "Server error" });
+    onsole.log(error);
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -182,9 +168,66 @@ const getAllDoctors = async (req, res) => {
       .json({ success: false, message: "Failed to fetch doctors" });
   }
 };
+const doctorDashboard = async (req, res) => {
+  try {
+    const { docId } = req.body;
+    const appointments = await appointmentModel.find({ docId });
+    let earnings = 0;
+
+    appointments.map((item) => {
+      if (item.isCompleted || item.payment) {
+        earnings += item.amount;
+      }
+    });
+    let patients = [];
+    appointments.map((item) => {
+      if (!patients.includes(item.userId)) {
+        patients.push(item.userId);
+      }
+    });
+
+    const dashData = {
+      appointments: appointments.length,
+      earnings,
+      patients: patients.length,
+      latestAppointments: appointments.reverse().slice(0, 5),
+    };
+    return res.json({ success: true, dashData });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+const doctorProfile = async (req, res) => {
+  try {
+    const { docId } = req.body;
+    const profileData = await doctorModel.findById(docId).select("-password");
+    res.json({ success: true, profileData });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+const changeAvailablity = async (req, res) => {
+  try {
+    const { docId } = req.body;
+
+    const docData = await doctorModel.findById(docId);
+    await doctorModel.findByIdAndUpdate(docId, {
+      available: !docData.available,
+    });
+    res.json({ success: true, message: "Availabity changed" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 
 export {
   getDoctorAppointments,
+  doctorDashboard,
   doctorLogin,
   cancelAppointments,
   getDoctorsBySpeciality,
@@ -192,4 +235,6 @@ export {
   getRelatedDoctors,
   getTopDoctors,
   getAllDoctors,
+  doctorProfile,
+  changeAvailablity
 };
