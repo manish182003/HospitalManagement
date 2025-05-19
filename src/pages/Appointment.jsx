@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 // import { AdminAppContext } from "../context/AdminAppContext";
 const Appointment = () => {
-  const {token} = useContext(AppContext);
+  const { token } = useContext(AppContext);
   const navigate = useNavigate();
   const { docId } = useParams();
   const {
@@ -22,10 +22,25 @@ const Appointment = () => {
   } = useContext(AppContext);
   // const { paymentOrder } = useContext(AdminAppContext);
   const daysOfweek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+  const monthsOfYear = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
   const [docInfo, setDocInfo] = useState(null);
   const [slotIndex, setSlotIndex] = useState(0);
   const [slotTime, setSlotTime] = useState("");
   const [docSlots, setDocSlots] = useState([]);
+  const [dates, setDates] = useState([]);
 
   const fetchDocInfo = useCallback(() => {
     const docInfo = doctors.find((doc) => doc._id == docId);
@@ -120,18 +135,18 @@ const Appointment = () => {
       return navigate("/login");
     }
 
-    if (!docSlots[slotIndex][0]) {
+    if (!dates[slotIndex]) {
       return toast.error("Please Pick Booking Date");
     }
 
-    const bookingDate = docSlots[slotIndex][0].datetime;
+    const bookingDate = dates[slotIndex];
     console.log("booking date");
     console.log(bookingDate);
     // Convert to UTC Date with time 00:00:00
 
-    if (!slotTime) {
-      return toast.error("Please Pick Time Slot.");
-    }
+    // if (!slotTime) {
+    //   return toast.error("Please Pick Time Slot.");
+    // }
 
     const date = new Date(bookingDate);
 
@@ -146,6 +161,25 @@ const Appointment = () => {
     console.log(paymentOrder);
   };
 
+  const generateBookingDates = () => {
+    const result = [];
+    const today = new Date();
+    const twoMonthsLater = new Date(
+      today.getFullYear(),
+      today.getMonth() + 2,
+      today.getDate()
+    );
+
+    let current = new Date(today);
+    while (current <= twoMonthsLater) {
+      result.push(new Date(current)); // Push a copy to avoid mutation
+
+      current.setDate(current.getDate() + 1);
+    }
+
+    setDates(result);
+  };
+
   useEffect(() => {
     if (paymentOrder) {
       const options = {
@@ -156,7 +190,7 @@ const Appointment = () => {
         description: "Doctor/Service appointment",
         order_id: paymentOrder.id,
         handler: async function (response) {
-          const bookingDate = docSlots[slotIndex][0].datetime;
+          const bookingDate = dates[slotIndex];
           const date = new Date(bookingDate);
           try {
             await verifyOrderPayment(
@@ -173,6 +207,7 @@ const Appointment = () => {
                 reason: "Fever and headache",
               }
             );
+            navigate("/my-appointment");
           } catch (error) {
             if (error.response && error.response.data) {
               console.log("backend error->", error.response.data);
@@ -296,6 +331,7 @@ const Appointment = () => {
   }, [doctors, docId]);
 
   useEffect(() => {
+    generateBookingDates();
     getAvailableSlots();
   }, [docInfo]);
 
@@ -345,62 +381,25 @@ const Appointment = () => {
         </div>
         {/*------------------------Booking Slots--------------------------------------*/}
         <div className="sm:ml-72 sm:pl-4 mt-4 font-medium text-gray-700">
-          <p>Bookig Slots</p>
+          <p>Booking Slots</p>
           {/* Check if at least one slot has a valid day */}
-          {docSlots.some((item) => item[0]) ? (
-            <>
-              {/* Day slots */}
-              <div className="flex gap-3 items-center w-full overflow-x-scroll mt-4">
-                {docSlots.map((item, index) =>
-                  item[0] ? (
-                    <div
-                      onClick={() => {
-                        setSlotIndex(index);
-                        setSlotTime(""); // reset time on date change
-                      }}
-                      className={`text-center py-6 min-w-16 rounded-full cursor-pointer ${
-                        slotIndex === index
-                          ? "bg-blue-100 text-black-400"
-                          : "border border-blue-200"
-                      }`}
-                      key={index}
-                    >
-                      <p>{daysOfweek[item[0].datetime.getDay()]}</p>
-                      <p>{item[0].datetime.getDate()}</p>
-                    </div>
-                  ) : null
-                )}
+          <div className="flex gap-3 items-center w-full overflow-x-scroll mt-4">
+            {dates.map((date, index) => (
+              <div
+                onClick={() => setSlotIndex(index)}
+                className={`text-center py-6 min-w-16 rounded-full cursor-pointer ${
+                  slotIndex === index
+                    ? "bg-blue-100 text-black-400"
+                    : "border border-blue-200"
+                }`}
+                key={index}
+              >
+                <p>{daysOfweek[date.getDay()]}</p>
+                <p>{date.getDate()}</p>
+                <p>{monthsOfYear[date.getMonth()]}</p>
               </div>
-
-              {/* Time slots */}
-              <div className="flex items-center gap-3 mt-4 w-full overflow-x-scroll">
-                {docSlots[slotIndex] && docSlots[slotIndex].length > 0 ? (
-                  docSlots[slotIndex].map((item, index) => (
-                    <p
-                      onClick={() => setSlotTime(item.time)}
-                      className={`text-sm font-light flex-shrink-0 px-5 py-2 rounded-full cursor-pointer ${
-                        item.time === slotTime
-                          ? "bg-blue-100 text-black-400"
-                          : "text-black-400 border border-blue-200"
-                      }`}
-                      key={index}
-                    >
-                      {item.time.toLowerCase()}
-                    </p>
-                  ))
-                ) : (
-                  <p className="text-red-500 font-medium">
-                    No time slots available
-                  </p>
-                )}
-              </div>
-            </>
-          ) : (
-            // If no day is available
-            <p className="text-red-500 font-semibold mt-4">
-              Not available for next 7 days
-            </p>
-          )}
+            ))}
+          </div>
 
           <button
             onClick={bookAppointment}

@@ -14,6 +14,7 @@ const MyAppointment = () => {
   } = useContext(AppContext);
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("Upcoming");
+  const [cancelingId, setCancelingId] = useState(null);
 
   const tabs = ["Upcoming", "Ongoing", "Completed", "Cancelled"];
   useEffect(() => {
@@ -33,11 +34,10 @@ const MyAppointment = () => {
 
   // 2. Once userData is available, fetch appointments
   useEffect(() => {
-  if (userData && userData._id && token) {
-    getAppointments(userData._id, activeTab, 1);
-  }
-}, [activeTab, userData, token]);
-
+    if (userData && userData._id && token) {
+      getAppointments(userData._id, activeTab, 1);
+    }
+  }, [activeTab, userData, token]);
 
   const formatDate = (date) => {
     const dateObj = new Date(date);
@@ -48,25 +48,29 @@ const MyAppointment = () => {
     });
   };
 
-  const formatTime = (time, isEnd = false) => {
-    const timeObj = new Date(time);
-    if (isEnd) timeObj.setMinutes(timeObj.getMinutes() + 30);
+  // const formatTime = (time, isEnd = false) => {
+  //   const timeObj = new Date(time);
+  //   if (isEnd) timeObj.setMinutes(timeObj.getMinutes() + 30);
 
-    return timeObj.toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
-  };
+  //   return timeObj.toLocaleTimeString("en-US", {
+  //     hour: "2-digit",
+  //     minute: "2-digit",
+  //     hour12: true,
+  //   });
+  // };
 
   const cancelAppointment = async (id) => {
     try {
+      setCancelingId(id);
       await cancelAppointments(id);
 
-      getAppointments(id, activeTab, 1);
+      getAppointments(userData._id, activeTab, 1);
+      setActiveTab("Cancelled");
     } catch (error) {
       console.log(error);
       toast.error(error.message);
+    } finally {
+      setCancelingId(null); // Stop loading
     }
   };
 
@@ -114,24 +118,33 @@ const MyAppointment = () => {
                 <p className="mt-2 text-sm text-zinc-700 font-medium">
                   Address:
                 </p>
-                <p className="text-sm text-zinc-500">{item.doctorId.address}</p>
+                <p className="text-sm text-zinc-500">
+                  {item.doctorId.address
+                    ? JSON.parse(item.doctorId.address).line1
+                    : "N/A"}
+                </p>
                 <p className="mt-2 text-sm">
                   <span className="font-medium text-zinc-700">
-                    Date & Time:
+                    Booking Date :
                   </span>{" "}
-                  {formatDate(item.date)} | {formatTime(item.startTime)} -{" "}
-                  {formatTime(item.startTime, true)}
+                  {formatDate(item.date)}
+                  {/* | {formatTime(item.startTime)} -{" "}
+                  {formatTime(item.startTime, true)} */}
                 </p>
               </div>
 
               {/* Action Button */}
               <div className="flex flex-col justify-center items-end gap-2">
-                {activeTab != "Cancelled" && (
+                {activeTab != "Cancelled" && activeTab != "Completed" && (
                   <button
                     onClick={() => cancelAppointment(item._id)}
-                    className="text-sm px-4 py-2 border rounded text-red-600 border-red-600 hover:bg-red-600 hover:text-white transition"
+                    // className="text-sm px-4 py-2 border rounded text-red-600 border-red-600 hover:bg-red-600 hover:text-white transition"
+                    className="text-sm px-4 py-2 border rounded text-red-600 border-red-600 hover:bg-red-600 hover:text-white transition disabled:opacity-50"
+                    disabled={cancelingId === item._id}
                   >
-                    Cancel Appointment
+                    {cancelingId === item._id
+                      ? "Cancelling..."
+                      : "Cancel Appointment"}
                   </button>
                 )}
                 {activeTab == "Cancelled" && (

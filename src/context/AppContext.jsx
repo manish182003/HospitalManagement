@@ -175,9 +175,9 @@ const AppContextProvider = (props) => {
 
   const getAppointments = async (patientId, status, page = 1) => {
     if (!patientId) {
-    console.error("Invalid patientId:", patientId);
-    return;
-  }
+      console.error("Invalid patientId:", patientId);
+      return;
+    }
     try {
       setAppointments();
       console.log(userData);
@@ -202,15 +202,17 @@ const AppContextProvider = (props) => {
   const cancelAppointments = async (appointmentId) => {
     try {
       console.log(token);
+      console.log(appointmentId);
+
       const { data } = await axios.post(
-        backendUrl + `api/payment/refund`,
+        backendUrl + "api/payment/refund",
+        {
+          appointmentId: appointmentId,
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`, // ✅ Correct placement
           },
-        },
-        {
-          appointmentId: appointmentId,
         }
       );
       console.log(data);
@@ -218,6 +220,7 @@ const AppContextProvider = (props) => {
         toast.success(data.message);
       }
     } catch (error) {
+      console.log(error);
       toast.error(error.message);
     }
   };
