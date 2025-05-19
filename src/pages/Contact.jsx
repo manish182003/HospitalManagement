@@ -27,8 +27,8 @@ const Contact = () => {
               🏥 Our Main Office
             </h3>
             <p>
-              CLINIX-XYZ HealthTech Pvt. Ltd. <br />
-              54560 Wellness Avenue, Sector 42, <br />
+              HMS-Hospital Management System <br />
+              Amrapali, Lamachaur <br />
               Haldwani, Uttarakhand, India
             </p>
           </div>
@@ -39,7 +39,7 @@ const Contact = () => {
             </h3>
             <p>
               Phone: +91 98765 43210 <br />
-              Email: support@clinix-xyz.com
+              Email: hmsProject001@gmail.com
             </p>
             <p className="mt-2">
               For urgent queries or booking issues via Razorpay, our team is
