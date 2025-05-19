@@ -28,6 +28,7 @@ export const checkDoctorBookingLimit = async (doctorId, bookingDate) => {
         $gte: startOfDay,
         $lte: endOfDay,
       },
+      status: { $ne: "Cancelled" },
     });
 
     // Compare with limit
