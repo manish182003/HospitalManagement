@@ -12,12 +12,12 @@ const Footer = () => {
           <img className="mb-5 w-40" src={assets.logo} alt="logo" />
           <p className="text-xl font-medium mb-5">Specialties</p>
           <ul className="flex flex-col gap-2 text-gray-600">
-            <li className="cursor-pointer hover:text-black" onClick={() => navigate("/specialties/general-physician")}>General Physician</li>
-            <li className="cursor-pointer hover:text-black" onClick={() => navigate("/specialties/gynecologist")}>Gynecologist</li>
-            <li className="cursor-pointer hover:text-black" onClick={() => navigate("/specialties/dermatologist")}>Dermatologist</li>
-            <li className="cursor-pointer hover:text-black" onClick={() => navigate("/specialties/pediatricians")}>Pediatricians</li>
-            <li className="cursor-pointer hover:text-black" onClick={() => navigate("/specialties/neurologist")}>Neurologist</li>
-            <li className="cursor-pointer hover:text-black" onClick={() => navigate("/specialties/gastroenterologist")}>Gastroenterologist</li>
+            <li className="cursor-pointer hover:text-black" onClick={() => navigate("/doctor/Physician")}>General Physician</li>
+            <li className="cursor-pointer hover:text-black" onClick={() => navigate("/doctor/Gynecologist")}>Gynecologist</li>
+            <li className="cursor-pointer hover:text-black" onClick={() => navigate("/doctor/Dermatologist")}>Dermatologist</li>
+            <li className="cursor-pointer hover:text-black" onClick={() => navigate("/doctor/Pediatrician")}>Pediatricians</li>
+            <li className="cursor-pointer hover:text-black" onClick={() => navigate("/doctor/Neurologist")}>Neurologist</li>
+            <li className="cursor-pointer hover:text-black" onClick={() => navigate("/doctor/Gastroenterologist")}>Gastroenterologist</li>
           </ul>
         </div>
 
