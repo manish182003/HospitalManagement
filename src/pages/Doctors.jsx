@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom"; // Import useParams hook
 import { AppContext } from "../context/AppContext";
+import Chatbot from "../components/chatbot";
+
 
 const Doctors = () => {
   const navigate = useNavigate();
@@ -33,6 +35,7 @@ const Doctors = () => {
           }`}
           onClick={() => setShowFilter((prev) => !prev)}
         >
+          <Chatbot/>
           Filter
         </button>
         <div
