@@ -1,5 +1,5 @@
-import appointmentModel from "../modules/appointmentModel";
-import doctorModel from "../modules/doctorModel";
+import appointmentModel from "../modules/appointmentModel.js";
+import doctorModel from "../modules/doctorModel.js";
 
 export const checkDoctorBookingLimit = async (doctorId, bookingDate) => {
   try {
