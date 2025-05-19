@@ -98,6 +98,28 @@ const AdminAppContextProvider = (props) => {
       toast.error(error.message || "Failed to fetch dashboard data.");
     }
   };
+  const removeDoctor = async (docId) => {
+  if (!window.confirm("Are you sure you want to delete this doctor?")) return;
+
+  try {
+    const { data } = await axios.delete(
+      `${backendUrl}api/admin/remove-doctor/${docId}`,
+      {
+        headers: { aToken },
+      }
+    );
+
+    if (data.success) {
+      toast.success(data.message);
+      getAllDoctors(); // Refresh the list
+    } else {
+      toast.error(data.message);
+    }
+  } catch (error) {
+    toast.error(error.response?.data?.message || "Error deleting doctor.");
+  }
+};
+
 
   const value = {
     aToken,
@@ -112,6 +134,7 @@ const AdminAppContextProvider = (props) => {
     dashData,
     // cancelAppointment,
     getDashData,
+    removeDoctor,
   };
 
   return (
