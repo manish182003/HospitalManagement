@@ -5,12 +5,15 @@ const Footer = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-gray-100 px-6 md:px-10 pt-16 pb-8 mt-40 text-sm text-gray-700">
+    <>
+    <div className="bg-gray-100 px-8 md:px-10 pt-15 pb-8 mt-40 text-sm text-gray-700">
+    <img className="mb-4 w-36" src={assets.logo} alt="logo" />
+
       {/* Top Footer */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-14">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-15">
         {/*--------------------Left Section---------------------- */}
-        <div className="flex flex-col items-start">
-          <img className="mb-4 w-36" src={assets.logo} alt="logo" />
+        <div>
+          {/* <img className="mb-4 w-36" src={assets.logo} alt="logo" /> */}
           <p className="text-xl font-semibold mb-4">Specialties</p>
           <ul className="flex flex-col gap-2">
             <li className="cursor-pointer hover:text-black transition" onClick={() => navigate("/doctor/Physician")}>General Physician</li>
@@ -51,6 +54,7 @@ const Footer = () => {
         </p>
       </div>
     </div>
+    </>
   );
 };
 
