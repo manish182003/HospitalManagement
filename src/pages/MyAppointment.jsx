@@ -33,10 +33,11 @@ const MyAppointment = () => {
 
   // 2. Once userData is available, fetch appointments
   useEffect(() => {
-    if (userData && token) {
-      getAppointments(userData._id, activeTab, 1);
-    }
-  }, [activeTab, userData, token]);
+  if (userData && userData._id && token) {
+    getAppointments(userData._id, activeTab, 1);
+  }
+}, [activeTab, userData, token]);
+
 
   const formatDate = (date) => {
     const dateObj = new Date(date);
